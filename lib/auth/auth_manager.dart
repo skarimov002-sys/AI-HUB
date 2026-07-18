@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import 'package:flutter/material.dart';
 
 import 'base_auth_user_provider.dart';

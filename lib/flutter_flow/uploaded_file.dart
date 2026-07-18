@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import 'dart:convert';
 import 'dart:typed_data' show Uint8List;
 

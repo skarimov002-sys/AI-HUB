@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import '/components/button/button_widget.dart';
 import '/components/density_option/density_option_widget.dart';
 import '/components/slider/slider_widget.dart';

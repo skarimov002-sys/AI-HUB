@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 class AuthUserInfo {
   const AuthUserInfo({
     this.uid,

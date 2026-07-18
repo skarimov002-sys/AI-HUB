@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import 'package:flutter/foundation.dart';
 
 class FormFieldController<T> extends ValueNotifier<T?> {
