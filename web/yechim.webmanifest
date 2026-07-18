@@ -1,0 +1,16 @@
+{
+  "name": "Yechim — Masala yechuvchi AI",
+  "short_name": "Yechim",
+  "description": "Masalani yozing yoki suratga oling — bosqichma-bosqich yechib beradi",
+  "lang": "uz",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAF8F1",
+  "theme_color": "#2343A6",
+  "icons": [
+    { "src": "icons/yechim-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/yechim-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/yechim-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
