@@ -337,6 +337,37 @@
     text-decoration:underline;
   }
 
+  /* ======= API kalit sozlash ======= */
+  header{ position:relative; }
+  .sozlama{
+    position:absolute; top:-4px; right:-2px;
+    border:none; background:none;
+    font-size:20px; cursor:pointer; padding:6px;
+  }
+  .kalit-karta{
+    background:#FFF9E8;
+    border:1.5px solid #E5C55A;
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:16px;
+    font-size:14.5px;
+    line-height:1.55;
+  }
+  .kalit-karta h3{ color:#8A6D1D; font-size:15.5px; margin-bottom:6px; }
+  .kalit-karta ol{ margin:8px 0 10px 20px; line-height:1.75; }
+  .kalit-satr{ display:flex; gap:8px; }
+  .kalit-satr input{
+    flex:1; min-width:0;
+    border:1px solid var(--rule); border-radius:6px;
+    padding:10px 12px; font-size:14px;
+  }
+  .kalit-satr button{
+    border:none; background:var(--ink); color:#fff;
+    border-radius:6px; padding:10px 14px;
+    font-weight:700; cursor:pointer;
+  }
+  .kalit-izoh{ color:var(--muted); font-size:12.5px; margin-top:8px; }
+
   footer{ text-align:center; color:var(--muted); font-size:12.5px; margin-top:34px; }
 
   @media (prefers-reduced-motion: reduce){
@@ -352,6 +383,7 @@
 <div class="wrap">
 
   <header>
+    <button class="sozlama" id="kalitSozlama" title="API kalit sozlamasi">⚙️</button>
     <div class="logo"><span class="qalam">✎</span> Yechim</div>
     <div class="taglayn">Masalani yozing yoki suratga oling — bosqichma-bosqich yechib beraman</div>
   </header>
@@ -364,6 +396,22 @@
   </nav>
 
   <section class="sahifa aktiv" id="bolim-yechish">
+
+  <!-- Bir martalik kalit sozlash -->
+  <div class="kalit-karta" id="kalitKarta" style="display:none;">
+    <h3>🔑 Bir martalik sozlash</h3>
+    <p>AI ishlashi uchun bepul <b>Gemini API kaliti</b> kerak:</p>
+    <ol>
+      <li><b>aistudio.google.com</b> saytiga kiring (Google hisobingiz bilan)</li>
+      <li><b>"Get API key"</b> → <b>"Create API key"</b> bosing</li>
+      <li>Kalitni nusxalab, pastga qo'ying</li>
+    </ol>
+    <div class="kalit-satr">
+      <input type="password" id="kalitInput" placeholder="AIza… kalitni shu yerga qo'ying">
+      <button id="kalitSaqlash">Saqlash</button>
+    </div>
+    <p class="kalit-izoh">Kalit faqat sizning telefoningizda saqlanadi, hech qayerga yuborilmaydi.</p>
+  </div>
 
   <!-- Daftar yorlig'i: fan tanlash -->
   <div class="yorliq">
@@ -515,6 +563,13 @@
       return;
     }
 
+    if (!apiKalit){
+      kalitKarta.style.display = "block";
+      kalitKarta.scrollIntoView({ behavior:"smooth", block:"start" });
+      xatoKorsat("Avval yuqorida Gemini kalitini kiritib, saqlang.");
+      return;
+    }
+
     yechishTugma.disabled = true;
     yechishTugma.textContent = "Yechilmoqda…";
 
@@ -534,32 +589,14 @@
       (rasm ? "- Masala sharti rasmda berilgan, avval uni diqqat bilan o'qi.\n" : "") +
       (matn ? "\nMasala: " + matn : "\nMasala rasmda.");
 
-    const kontent = [];
+    const qismlar = [];
     if (rasm){
-      kontent.push({ type:"image", source:{ type:"base64", media_type:rasm.mediaType, data:rasm.data } });
+      qismlar.push({ inline_data:{ mime_type:rasm.mediaType, data:rasm.data } });
     }
-    kontent.push({ type:"text", text:korsatma });
+    qismlar.push({ text: korsatma });
 
     try{
-      const javob = await fetch("https://api.anthropic.com/v1/messages", {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body:JSON.stringify({
-          model:"claude-sonnet-4-6",
-          max_tokens:1000,
-          messages:[{ role:"user", content:kontent }]
-        })
-      });
-
-      const data = await javob.json();
-      if (data.error) throw new Error(data.error.message || "API xatosi");
-
-      const toliq = (data.content || [])
-        .map(b => b.type === "text" ? b.text : "")
-        .filter(Boolean)
-        .join("\n");
-
-      if (!toliq) throw new Error("Bo'sh javob keldi");
+      const toliq = await geminiSorov(qismlar);
 
       natijaFanEl.textContent = tanlanganFan;
       yechimMatnEl.innerHTML = bezash(toliq);
@@ -580,7 +617,11 @@
       natijaEl.scrollIntoView({ behavior:"smooth", block:"start" });
     } catch(err){
       console.error(err);
-      xatoKorsat("Xatolik yuz berdi. Internetni tekshirib, qayta urinib ko'ring.");
+      const xabar = String(err.message || "").toLowerCase();
+      if (xabar.includes("key") || xabar.includes("permission") || xabar.includes("denied"))
+        xatoKorsat("Kalit bilan muammo bor. ⚙️ tugmasi orqali kalitni tekshirib, qayta kiriting.");
+      else
+        xatoKorsat("Xatolik yuz berdi. Internetni tekshirib, qayta urinib ko'ring.");
     } finally{
       yechishTugma.disabled = false;
       yechishTugma.textContent = "Yechish";
@@ -609,23 +650,16 @@
       '[{"masala":"masala sharti","javob":"qisqa javob va 1-2 qatorli izoh","daraja":"Oson"}]\n' +
       "daraja qiymatlari: Oson, O'rta, Qiyinroq. Hammasi o'zbek tilida. Formulalarni oddiy matnda yoz, LaTeX ishlatma.";
 
-    try{
-      const javob = await fetch("https://api.anthropic.com/v1/messages", {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body:JSON.stringify({
-          model:"claude-sonnet-4-6",
-          max_tokens:1000,
-          messages:[{ role:"user", content:sorov }]
-        })
-      });
-      const data = await javob.json();
-      if (data.error) throw new Error(data.error.message || "API xatosi");
+    if (!apiKalit){
+      kalitKarta.style.display = "block";
+      xatoKorsat("Avval Gemini kalitini kiriting (Yechish bo'limida).");
+      mashqTugma.disabled = false;
+      mashqTugma.textContent = "✏️ Qo'shimcha mashq olish";
+      return;
+    }
 
-      const matnJ = (data.content || [])
-        .map(b => b.type === "text" ? b.text : "")
-        .filter(Boolean)
-        .join("\n");
+    try{
+      const matnJ = await geminiSorov([{ text: sorov }]);
       const toza = matnJ.replace(/```json|```/g, "").trim();
       const royxat = JSON.parse(toza);
       if (!Array.isArray(royxat) || !royxat.length) throw new Error("Bo'sh ro'yxat");
@@ -755,21 +789,11 @@
   // ======= Tarix: saqlash va o'qish =======
   let tarix = [];
 
-  async function tarixSaqla(){
-    const s = JSON.stringify(tarix);
-    try{
-      if (window.storage){ await window.storage.set("yechim-tarix", s); return; }
-    } catch(e){}
-    try{ localStorage.setItem("yechim-tarix", s); } catch(e){}
+  function tarixSaqla(){
+    try{ localStorage.setItem("yechim-tarix", JSON.stringify(tarix)); } catch(e){}
   }
 
-  async function tarixYukla(){
-    try{
-      if (window.storage){
-        const r = await window.storage.get("yechim-tarix");
-        if (r && r.value) return JSON.parse(r.value);
-      }
-    } catch(e){}
+  function tarixYukla(){
     try{
       const s = localStorage.getItem("yechim-tarix");
       if (s) return JSON.parse(s);
@@ -825,7 +849,7 @@
     if (karta) karta.classList.toggle("ochiq");
   });
 
-  tarixTozalash.addEventListener("click", async () => {
+  tarixTozalash.addEventListener("click", () => {
     if (tarixTozalash.dataset.tasdiq !== "1"){
       tarixTozalash.dataset.tasdiq = "1";
       tarixTozalash.textContent = "Rostdan o'chirilsinmi? Yana bosing";
@@ -836,14 +860,66 @@
       return;
     }
     tarix = [];
-    await tarixSaqla();
+    tarixSaqla();
     tarixTozalash.dataset.tasdiq = "";
     tarixTozalash.textContent = "Tarixni tozalash";
     tarixKorsat();
   });
 
+  // ======= Gemini API =======
+  async function geminiSorov(qismlar){
+    const javob = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+        encodeURIComponent(apiKalit),
+      {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ contents:[{ parts: qismlar }] })
+      }
+    );
+    const data = await javob.json();
+    if (data.error) throw new Error(data.error.message || "API xatosi");
+    const parts = (((data.candidates || [])[0] || {}).content || {}).parts || [];
+    const toliq = parts.map(p => p.text || "").join("");
+    if (!toliq) throw new Error("Bo'sh javob keldi");
+    return toliq;
+  }
+
+  // ======= API kalit boshqaruvi =======
+  let apiKalit = "";
+  try{ apiKalit = localStorage.getItem("gemini-kalit") || ""; } catch(e){}
+
+  const kalitKarta = document.getElementById("kalitKarta");
+  const kalitInput = document.getElementById("kalitInput");
+
+  function kalitTekshir(){
+    kalitKarta.style.display = apiKalit ? "none" : "block";
+  }
+
+  document.getElementById("kalitSaqlash").addEventListener("click", () => {
+    const k = kalitInput.value.trim();
+    if (!k){ xatoKorsat("Kalitni kiriting."); return; }
+    apiKalit = k;
+    try{ localStorage.setItem("gemini-kalit", k); } catch(e){}
+    kalitInput.value = "";
+    xatoYashir();
+    kalitTekshir();
+  });
+
+  document.getElementById("kalitSozlama").addEventListener("click", () => {
+    // Yechish bo'limiga o'tib, kalit kartasini ochamiz
+    document.querySelectorAll(".bolim").forEach(x => x.classList.remove("aktiv"));
+    document.querySelector('.bolim[data-bolim="yechish"]').classList.add("aktiv");
+    document.querySelectorAll(".sahifa").forEach(s => s.classList.remove("aktiv"));
+    document.getElementById("bolim-yechish").classList.add("aktiv");
+    kalitKarta.style.display = "block";
+    kalitKarta.scrollIntoView({ behavior:"smooth", block:"start" });
+  });
+
+  kalitTekshir();
+
   // Ilova ochilganda saqlangan tarixni yuklaymiz
-  tarixYukla().then(r => { tarix = tarix.concat(r); });
+  tarix = tarixYukla();
 </script>
 </body>
 </html>
