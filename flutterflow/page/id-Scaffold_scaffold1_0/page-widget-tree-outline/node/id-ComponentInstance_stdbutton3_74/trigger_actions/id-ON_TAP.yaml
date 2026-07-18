@@ -1,6 +1,0 @@
-rootAction:
-  key: nav_MainChatInterface_stdbutton3
-  action:
-    key: othag0y4
-trigger:
-  triggerType: ON_TAP

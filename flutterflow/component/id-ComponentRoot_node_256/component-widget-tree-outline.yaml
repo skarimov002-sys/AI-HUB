@@ -1,7 +1,0 @@
-node:
-  key: ComponentRoot_node_256
-  children:
-    - key: Column_root_260
-      children:
-        - key: Icon_icon_257
-        - key: Text_label_text_258
