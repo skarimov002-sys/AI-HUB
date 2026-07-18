@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2343A6">
+<link rel="manifest" href="yechim.webmanifest">
+<link rel="icon" href="icons/yechim-192.png">
+<link rel="apple-touch-icon" href="icons/yechim-192.png">
 <title>Yechim — Masala yechuvchi AI</title>
 <style>
   :root{
@@ -920,6 +924,11 @@
 
   // Ilova ochilganda saqlangan tarixni yuklaymiz
   tarix = tarixYukla();
+
+  // PWA: offlayn kesh uchun service worker (faqat http/https da ishlaydi)
+  if ("serviceWorker" in navigator){
+    navigator.serviceWorker.register("yechim-sw.js").catch(() => {});
+  }
 </script>
 </body>
 </html>
