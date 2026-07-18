@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2343A6">
+<link rel="manifest" href="yechim.webmanifest">
+<link rel="icon" href="icons/yechim-192.png">
+<link rel="apple-touch-icon" href="icons/yechim-192.png">
+<title>Yechim — Masala yechuvchi AI</title>
+<style>
+  :root{
+    --paper:#FAF8F1;
+    --card:#FFFFFF;
+    --grid:#DFE7F3;
+    --rule:#CBD6EA;
+    --ink:#2343A6;
+    --ink-soft:#4A63C0;
+    --text:#2A2F3C;
+    --red:#D3372E;
+    --muted:#7C8398;
+    --shadow:0 2px 12px rgba(35,67,166,.10);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    background:var(--paper);
+    color:var(--text);
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    min-height:100vh;
+    padding:20px 14px 48px;
+  }
+  .wrap{ max-width:640px; margin:0 auto; }
+
+  /* ======= Sarlavha ======= */
+  header{ text-align:center; margin-bottom:18px; }
+  .logo{
+    font-family:Georgia, "Times New Roman", serif;
+    font-size:38px;
+    font-weight:700;
+    color:var(--ink);
+    letter-spacing:.5px;
+  }
+  .logo .qalam{ font-style:normal; font-size:30px; }
+  .taglayn{ color:var(--muted); font-size:14px; margin-top:2px; }
+
+  /* ======= Daftar yorlig'i (fan tanlash) ======= */
+  .yorliq{
+    background:var(--card);
+    border:1.5px solid var(--ink);
+    outline:1px solid var(--ink);
+    outline-offset:3px;
+    border-radius:4px;
+    padding:14px 16px;
+    box-shadow:var(--shadow);
+    margin:8px 2px 20px;
+  }
+  .yorliq-satr{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .yorliq-nom{
+    font-family:Georgia, serif;
+    font-style:italic;
+    color:var(--ink);
+    font-size:16px;
+    min-width:38px;
+  }
+  .fanlar{ display:flex; gap:8px; flex-wrap:wrap; }
+  .fan{
+    border:1.5px solid var(--ink);
+    background:var(--card);
+    color:var(--ink);
+    border-radius:999px;
+    padding:8px 14px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .15s, color .15s;
+  }
+  .fan.aktiv{ background:var(--ink); color:#fff; }
+  .fan:focus-visible, button:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--red);
+    outline-offset:2px;
+  }
+
+  /* ======= Masala kiritish (chiziqli daftar) ======= */
+  .kiritish{
+    background:
+      linear-gradient(to right, transparent 34px, var(--red) 34px, var(--red) 35.5px, transparent 35.5px),
+      repeating-linear-gradient(var(--card) 0px, var(--card) 31px, var(--rule) 31px, var(--rule) 32px);
+    border:1px solid var(--rule);
+    border-radius:6px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  textarea{
+    display:block;
+    width:100%;
+    min-height:128px;
+    border:none;
+    background:transparent;
+    resize:vertical;
+    padding:6px 14px 6px 48px;
+    font-family:Georgia, "Times New Roman", serif;
+    font-size:17px;
+    line-height:32px;
+    color:var(--text);
+  }
+  textarea::placeholder{ color:#A6ADC2; }
+
+  /* ======= Rasm va tugmalar ======= */
+  .amallar{ display:flex; gap:10px; margin-top:14px; }
+  .tugma-rasm{
+    flex:0 0 auto;
+    display:flex; align-items:center; gap:6px;
+    border:1.5px dashed var(--ink-soft);
+    background:var(--card);
+    color:var(--ink);
+    border-radius:8px;
+    padding:12px 14px;
+    font-size:14px; font-weight:600;
+    cursor:pointer;
+  }
+  .tugma-yechish{
+    flex:1;
+    border:none;
+    background:var(--ink);
+    color:#fff;
+    border-radius:8px;
+    padding:12px 16px;
+    font-size:16px; font-weight:700;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:transform .1s;
+  }
+  .tugma-yechish:active{ transform:scale(.98); }
+  .tugma-yechish:disabled{ opacity:.6; cursor:wait; }
+
+  .rasm-oldin{
+    display:none;
+    align-items:center; gap:10px;
+    margin-top:12px;
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-radius:8px;
+    padding:8px 10px;
+  }
+  .rasm-oldin img{ height:52px; border-radius:4px; }
+  .rasm-oldin span{ font-size:13px; color:var(--muted); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .rasm-och{
+    border:none; background:none; color:var(--red);
+    font-size:18px; cursor:pointer; padding:4px 8px;
+  }
+
+  .xato{
+    display:none;
+    margin-top:12px;
+    background:#FDECEA;
+    border:1px solid #F2B8B2;
+    color:#9C2318;
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:14px;
+  }
+
+  /* ======= Yechim (katak daftar) ======= */
+  .natija{
+    display:none;
+    margin-top:24px;
+    background:
+      repeating-linear-gradient(var(--card) 0px, var(--card) 21px, var(--grid) 21px, var(--grid) 22px),
+      repeating-linear-gradient(90deg, var(--card) 0px, var(--card) 21px, var(--grid) 21px, var(--grid) 22px);
+    background-blend-mode:multiply;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    box-shadow:var(--shadow);
+    padding:20px 18px;
+    animation:paydo .35s ease;
+  }
+  @keyframes paydo{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none;} }
+  .natija-sarlavha{
+    font-family:Georgia, serif;
+    font-style:italic;
+    color:var(--ink);
+    font-size:14px;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:6px;
+    margin-bottom:12px;
+    display:flex; justify-content:space-between; gap:8px;
+  }
+  .yechim-matn{
+    font-family:Georgia, "Times New Roman", serif;
+    font-size:16.5px;
+    line-height:1.75;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+  }
+  .yechim-matn .belgi{ font-weight:700; color:var(--ink); }
+  .yechim-matn .javob{
+    display:inline-block;
+    color:var(--red);
+    font-weight:700;
+    border-bottom:3px double var(--red);
+    padding-bottom:1px;
+    margin-top:6px;
+  }
+
+  /* ======= Qo'shimcha mashq (uyga vazifa) ======= */
+  .mashq-tugma{
+    display:none;
+    width:100%;
+    margin-top:14px;
+    border:1.5px dashed var(--ink);
+    background:var(--card);
+    color:var(--ink);
+    border-radius:8px;
+    padding:12px 16px;
+    font-size:15px; font-weight:700;
+    cursor:pointer;
+  }
+  .mashq-tugma:disabled{ opacity:.6; cursor:wait; }
+  .mashqlar{
+    display:none;
+    margin-top:24px;
+    background:
+      linear-gradient(to right, transparent 34px, var(--red) 34px, var(--red) 35.5px, transparent 35.5px),
+      repeating-linear-gradient(var(--card) 0px, var(--card) 31px, var(--rule) 31px, var(--rule) 32px);
+    border:1px solid var(--rule);
+    border-radius:6px;
+    box-shadow:var(--shadow);
+    padding:18px 18px 18px 48px;
+    animation:paydo .35s ease;
+  }
+  .mashqlar h2{
+    font-family:Georgia, serif;
+    font-style:italic;
+    font-size:17px;
+    color:var(--ink);
+    margin-bottom:8px;
+  }
+  .mashq{
+    font-family:Georgia, "Times New Roman", serif;
+    font-size:16px;
+    line-height:32px;
+    margin-bottom:8px;
+  }
+  .mashq .raqam{ font-weight:700; color:var(--ink); }
+  .mashq .daraja{
+    font-size:12.5px; color:var(--muted);
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .javob-tugma{
+    border:none;
+    background:none;
+    color:var(--ink-soft);
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    padding:2px 0;
+    text-decoration:underline dotted;
+  }
+  .mashq-javob{
+    display:none;
+    color:var(--red);
+    font-size:15px;
+  }
+  .mashq-javob.ochiq{ display:block; }
+
+  /* ======= Bo'limlar (daftar tablari) ======= */
+  .bolimlar{ display:flex; gap:6px; margin-bottom:16px; }
+  .bolim{
+    flex:1;
+    border:1.5px solid var(--ink);
+    background:var(--card);
+    color:var(--ink);
+    border-radius:8px 8px 0 0;
+    padding:10px 4px;
+    font-size:13.5px; font-weight:700;
+    cursor:pointer;
+  }
+  .bolim.aktiv{ background:var(--ink); color:#fff; }
+  .sahifa{ display:none; }
+  .sahifa.aktiv{ display:block; }
+
+  /* ======= Formulalar ======= */
+  .f-fanlar{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+  .f-royxat{
+    background:
+      repeating-linear-gradient(var(--card) 0px, var(--card) 21px, var(--grid) 21px, var(--grid) 22px),
+      repeating-linear-gradient(90deg, var(--card) 0px, var(--card) 21px, var(--grid) 21px, var(--grid) 22px);
+    background-blend-mode:multiply;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    box-shadow:var(--shadow);
+    padding:12px 16px;
+  }
+  .formula-qator{
+    display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+    padding:8px 2px;
+    border-bottom:1px dashed var(--rule);
+    font-size:15px;
+  }
+  .formula-qator:last-child{ border-bottom:none; }
+  .formula-nom{ color:var(--text); }
+  .formula-ifoda{
+    font-family:Georgia, "Times New Roman", serif;
+    font-weight:700; color:var(--ink);
+    text-align:right;
+  }
+
+  /* ======= Tarix ======= */
+  .tarix-royxat{ display:flex; flex-direction:column; gap:10px; }
+  .tarix-karta{
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-left:4px solid var(--ink);
+    border-radius:6px;
+    padding:12px 14px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+  }
+  .tarix-ust{
+    display:flex; justify-content:space-between; align-items:center; gap:8px;
+    font-size:12.5px; color:var(--muted); margin-bottom:6px;
+  }
+  .tarix-fan{ background:var(--ink); color:#fff; border-radius:999px; padding:2px 10px; font-weight:600; }
+  .tarix-och{ border:none; background:none; color:var(--muted); cursor:pointer; font-size:15px; padding:2px 6px; }
+  .tarix-oldin{ font-family:Georgia, serif; font-size:15px; }
+  .tarix-yechim{
+    display:none;
+    margin-top:10px; padding-top:10px;
+    border-top:1px dashed var(--rule);
+    font-family:Georgia, serif; font-size:15.5px; line-height:1.7;
+    white-space:pre-wrap;
+  }
+  .tarix-karta.ochiq .tarix-yechim{ display:block; }
+  .tarix-bosh{ text-align:center; color:var(--muted); padding:34px 10px; font-size:14.5px; line-height:1.6; }
+  .tarix-tozalash{
+    display:none;
+    margin:16px auto 0;
+    border:none; background:none;
+    color:var(--red); font-size:13.5px; cursor:pointer;
+    text-decoration:underline;
+  }
+
+  /* ======= API kalit sozlash ======= */
+  header{ position:relative; }
+  .sozlama{
+    position:absolute; top:-4px; right:-2px;
+    border:none; background:none;
+    font-size:20px; cursor:pointer; padding:6px;
+  }
+  .kalit-karta{
+    background:#FFF9E8;
+    border:1.5px solid #E5C55A;
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:16px;
+    font-size:14.5px;
+    line-height:1.55;
+  }
+  .kalit-karta h3{ color:#8A6D1D; font-size:15.5px; margin-bottom:6px; }
+  .kalit-karta ol{ margin:8px 0 10px 20px; line-height:1.75; }
+  .kalit-satr{ display:flex; gap:8px; }
+  .kalit-satr input{
+    flex:1; min-width:0;
+    border:1px solid var(--rule); border-radius:6px;
+    padding:10px 12px; font-size:14px;
+  }
+  .kalit-satr button{
+    border:none; background:var(--ink); color:#fff;
+    border-radius:6px; padding:10px 14px;
+    font-weight:700; cursor:pointer;
+  }
+  .kalit-izoh{ color:var(--muted); font-size:12.5px; margin-top:8px; }
+
+  footer{ text-align:center; color:var(--muted); font-size:12.5px; margin-top:34px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+  @media (max-width:420px){
+    .logo{ font-size:32px; }
+    .tugma-rasm .yozuv{ display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <button class="sozlama" id="kalitSozlama" title="API kalit sozlamasi">⚙️</button>
+    <div class="logo"><span class="qalam">✎</span> Yechim</div>
+    <div class="taglayn">Masalani yozing yoki suratga oling — bosqichma-bosqich yechib beraman</div>
+  </header>
+
+  <!-- Bo'limlar -->
+  <nav class="bolimlar">
+    <button class="bolim aktiv" data-bolim="yechish">✎ Yechish</button>
+    <button class="bolim" data-bolim="formulalar">📖 Formulalar</button>
+    <button class="bolim" data-bolim="tarix">🕐 Tarix</button>
+  </nav>
+
+  <section class="sahifa aktiv" id="bolim-yechish">
+
+  <!-- Bir martalik kalit sozlash -->
+  <div class="kalit-karta" id="kalitKarta" style="display:none;">
+    <h3>🔑 Bir martalik sozlash</h3>
+    <p>AI ishlashi uchun bepul <b>Gemini API kaliti</b> kerak:</p>
+    <ol>
+      <li><b>aistudio.google.com</b> saytiga kiring (Google hisobingiz bilan)</li>
+      <li><b>"Get API key"</b> → <b>"Create API key"</b> bosing</li>
+      <li>Kalitni nusxalab, pastga qo'ying</li>
+    </ol>
+    <div class="kalit-satr">
+      <input type="password" id="kalitInput" placeholder="AIza… kalitni shu yerga qo'ying">
+      <button id="kalitSaqlash">Saqlash</button>
+    </div>
+    <p class="kalit-izoh">Kalit faqat sizning telefoningizda saqlanadi, hech qayerga yuborilmaydi.</p>
+  </div>
+
+  <!-- Daftar yorlig'i: fan tanlash -->
+  <div class="yorliq">
+    <div class="yorliq-satr">
+      <span class="yorliq-nom">Fan:</span>
+      <div class="fanlar" id="fanlar">
+        <button class="fan aktiv" data-fan="Fizika">⚡ Fizika</button>
+        <button class="fan" data-fan="Kimyo">🧪 Kimyo</button>
+        <button class="fan" data-fan="Algebra">✖️ Algebra</button>
+        <button class="fan" data-fan="Geometriya">📐 Geometriya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Masala kiritish -->
+  <div class="kiritish">
+    <textarea id="masala" placeholder="Masala shartini shu yerga yozing…"></textarea>
+  </div>
+
+  <div class="rasm-oldin" id="rasmOldin">
+    <img id="rasmKichik" alt="Yuklangan rasm">
+    <span id="rasmNomi"></span>
+    <button class="rasm-och" id="rasmOchirish" title="Rasmni olib tashlash">✕</button>
+  </div>
+
+  <div class="amallar">
+    <button class="tugma-rasm" id="rasmTugma">📷 <span class="yozuv">Rasm yuklash</span></button>
+    <input type="file" id="rasmInput" accept="image/*" hidden>
+    <button class="tugma-yechish" id="yechishTugma">Yechish</button>
+  </div>
+
+  <div class="xato" id="xato"></div>
+
+  <!-- Yechim -->
+  <div class="natija" id="natija">
+    <div class="natija-sarlavha">
+      <span id="natijaFan">Fizika</span>
+      <span>✎ yechim</span>
+    </div>
+    <div class="yechim-matn" id="yechimMatn"></div>
+  </div>
+
+  <button class="mashq-tugma" id="mashqTugma">✏️ Qo'shimcha mashq olish</button>
+
+  <!-- Qo'shimcha mashqlar -->
+  <div class="mashqlar" id="mashqlar">
+    <h2>Uyga vazifa — endi o'zingiz sinab ko'ring</h2>
+    <div id="mashqRoyxat"></div>
+  </div>
+
+  </section>
+
+  <!-- ======= Formulalar bo'limi ======= -->
+  <section class="sahifa" id="bolim-formulalar">
+    <div class="f-fanlar" id="fFanlar">
+      <button class="fan aktiv" data-fan="Fizika">⚡ Fizika</button>
+      <button class="fan" data-fan="Kimyo">🧪 Kimyo</button>
+      <button class="fan" data-fan="Algebra">✖️ Algebra</button>
+      <button class="fan" data-fan="Geometriya">📐 Geometriya</button>
+    </div>
+    <div class="f-royxat" id="fRoyxat"></div>
+  </section>
+
+  <!-- ======= Tarix bo'limi ======= -->
+  <section class="sahifa" id="bolim-tarix">
+    <div class="tarix-royxat" id="tarixRoyxat"></div>
+    <button class="tarix-tozalash" id="tarixTozalash">Tarixni tozalash</button>
+  </section>
+
+  <footer>Yechim · O'quvchilar uchun AI yordamchi</footer>
+</div>
+
+<script>
+  let tanlanganFan = "Fizika";
+  let rasm = null; // { data, mediaType }
+
+  const masalaEl = document.getElementById("masala");
+  const yechishTugma = document.getElementById("yechishTugma");
+  const xatoEl = document.getElementById("xato");
+  const natijaEl = document.getElementById("natija");
+  const yechimMatnEl = document.getElementById("yechimMatn");
+  const natijaFanEl = document.getElementById("natijaFan");
+
+  // Fan tanlash
+  document.getElementById("fanlar").addEventListener("click", (e) => {
+    const btn = e.target.closest(".fan");
+    if (!btn) return;
+    document.querySelectorAll("#fanlar .fan").forEach(f => f.classList.remove("aktiv"));
+    btn.classList.add("aktiv");
+    tanlanganFan = btn.dataset.fan;
+  });
+
+  // Rasm yuklash
+  const rasmInput = document.getElementById("rasmInput");
+  document.getElementById("rasmTugma").addEventListener("click", () => rasmInput.click());
+
+  rasmInput.addEventListener("change", () => {
+    const fayl = rasmInput.files[0];
+    if (!fayl) return;
+    const oquvchi = new FileReader();
+    oquvchi.onload = () => {
+      const base64 = oquvchi.result.split(",")[1];
+      rasm = { data: base64, mediaType: fayl.type || "image/jpeg" };
+      document.getElementById("rasmKichik").src = oquvchi.result;
+      document.getElementById("rasmNomi").textContent = fayl.name;
+      document.getElementById("rasmOldin").style.display = "flex";
+    };
+    oquvchi.onerror = () => xatoKorsat("Rasmni o'qib bo'lmadi. Boshqa rasm tanlang.");
+    oquvchi.readAsDataURL(fayl);
+  });
+
+  document.getElementById("rasmOchirish").addEventListener("click", () => {
+    rasm = null;
+    rasmInput.value = "";
+    document.getElementById("rasmOldin").style.display = "none";
+  });
+
+  function xatoKorsat(matn){
+    xatoEl.textContent = matn;
+    xatoEl.style.display = "block";
+  }
+  function xatoYashir(){ xatoEl.style.display = "none"; }
+
+  // HTML belgilardan tozalash
+  function tozala(s){
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  // Yechimni chiroyli ko'rsatish
+  function bezash(matn){
+    let t = tozala(matn.trim());
+    t = t.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+    const qatorlar = t.split("\n").map(q => {
+      const j = q.match(/^\s*Javob\s*:/i);
+      if (j) return '<span class="javob">' + q.trim() + "</span>";
+      return q.replace(/^(\s*)(Berilgan|Formula|Formulalar|Yechish|Tekshirish)(\s*:)/i,
+        '$1<span class="belgi">$2$3</span>');
+    });
+    return qatorlar.join("\n");
+  }
+
+  // Asosiy: masalani yechish
+  yechishTugma.addEventListener("click", async () => {
+    const matn = masalaEl.value.trim();
+    xatoYashir();
+
+    if (!matn && !rasm){
+      xatoKorsat("Avval masala shartini yozing yoki rasmini yuklang.");
+      return;
+    }
+
+    if (!apiKalit){
+      kalitKarta.style.display = "block";
+      kalitKarta.scrollIntoView({ behavior:"smooth", block:"start" });
+      xatoKorsat("Avval yuqorida Gemini kalitini kiritib, saqlang.");
+      return;
+    }
+
+    yechishTugma.disabled = true;
+    yechishTugma.textContent = "Yechilmoqda…";
+
+    const korsatma =
+      "Sen O'zbekiston maktab o'quvchilariga " + tanlanganFan +
+      " fanidan masala yechishda yordam beradigan tajribali o'qituvchisan.\n\n" +
+      "Quyidagi masalani bosqichma-bosqich yech va o'zbek tilida sodda tushuntir.\n\n" +
+      "Javob tuzilishi:\n" +
+      "Berilgan: (masaladagi ma'lumotlar)\n" +
+      "Formula: (kerakli formulalar, agar bo'lsa)\n" +
+      "Yechish: (har bir qadam alohida qatorda, raqamlab)\n" +
+      "Javob: (yakuniy aniq javob, bitta qatorda)\n\n" +
+      "Qoidalar:\n" +
+      "- Formulalarni oddiy matnda yoz: S = v × t, x² kabi. LaTeX yoki $ belgisini ishlatma.\n" +
+      "- Markdown sarlavha (#) ishlatma.\n" +
+      "- Har bir qadamni qisqa va tushunarli izohla.\n" +
+      (rasm ? "- Masala sharti rasmda berilgan, avval uni diqqat bilan o'qi.\n" : "") +
+      (matn ? "\nMasala: " + matn : "\nMasala rasmda.");
+
+    const qismlar = [];
+    if (rasm){
+      qismlar.push({ inline_data:{ mime_type:rasm.mediaType, data:rasm.data } });
+    }
+    qismlar.push({ text: korsatma });
+
+    try{
+      const toliq = await geminiSorov(qismlar);
+
+      natijaFanEl.textContent = tanlanganFan;
+      yechimMatnEl.innerHTML = bezash(toliq);
+      natijaEl.style.display = "block";
+
+      // Mashq uchun kontekstni saqlaymiz
+      oxirgiMasala = matn;
+      oxirgiYechim = toliq;
+      mashqTugma.style.display = "block";
+      mashqlarEl.style.display = "none";
+      mashqRoyxat.innerHTML = "";
+
+      // Tarixga qo'shamiz
+      tarix.unshift({ fan: tanlanganFan, masala: matn || "Rasmli masala", yechim: toliq, vaqt: Date.now() });
+      if (tarix.length > 20) tarix = tarix.slice(0, 20);
+      tarixSaqla();
+
+      natijaEl.scrollIntoView({ behavior:"smooth", block:"start" });
+    } catch(err){
+      console.error(err);
+      const xabar = String(err.message || "").toLowerCase();
+      if (xabar.includes("key") || xabar.includes("permission") || xabar.includes("denied"))
+        xatoKorsat("Kalit bilan muammo bor. ⚙️ tugmasi orqali kalitni tekshirib, qayta kiriting.");
+      else
+        xatoKorsat("Xatolik yuz berdi. Internetni tekshirib, qayta urinib ko'ring.");
+    } finally{
+      yechishTugma.disabled = false;
+      yechishTugma.textContent = "Yechish";
+    }
+  });
+
+  // ======= Qo'shimcha mashqlar =======
+  const mashqTugma = document.getElementById("mashqTugma");
+  const mashqlarEl = document.getElementById("mashqlar");
+  const mashqRoyxat = document.getElementById("mashqRoyxat");
+  let oxirgiMasala = "";
+  let oxirgiYechim = "";
+
+  mashqTugma.addEventListener("click", async () => {
+    mashqTugma.disabled = true;
+    mashqTugma.textContent = "Tayyorlanmoqda…";
+    xatoYashir();
+
+    const sorov =
+      "Sen " + tanlanganFan + " fani o'qituvchisisan. O'quvchi hozirgina quyidagi masalani yechishni o'rgandi:\n\n" +
+      (oxirgiMasala ? "Masala: " + oxirgiMasala + "\n\n" : "") +
+      "Yechimi:\n" + oxirgiYechim + "\n\n" +
+      "Xuddi shu mavzuda mashq qilish uchun 3 ta o'xshash masala tuz:\n" +
+      "1-masala osonroq, 2-masala shu darajada, 3-masala biroz qiyinroq bo'lsin.\n\n" +
+      "FAQAT quyidagi JSON formatda javob ber, boshqa hech narsa yozma (markdown yoki ``` belgilari ham kerak emas):\n" +
+      '[{"masala":"masala sharti","javob":"qisqa javob va 1-2 qatorli izoh","daraja":"Oson"}]\n' +
+      "daraja qiymatlari: Oson, O'rta, Qiyinroq. Hammasi o'zbek tilida. Formulalarni oddiy matnda yoz, LaTeX ishlatma.";
+
+    if (!apiKalit){
+      kalitKarta.style.display = "block";
+      xatoKorsat("Avval Gemini kalitini kiriting (Yechish bo'limida).");
+      mashqTugma.disabled = false;
+      mashqTugma.textContent = "✏️ Qo'shimcha mashq olish";
+      return;
+    }
+
+    try{
+      const matnJ = await geminiSorov([{ text: sorov }]);
+      const toza = matnJ.replace(/```json|```/g, "").trim();
+      const royxat = JSON.parse(toza);
+      if (!Array.isArray(royxat) || !royxat.length) throw new Error("Bo'sh ro'yxat");
+
+      mashqRoyxat.innerHTML = royxat.map((m, i) =>
+        '<div class="mashq">' +
+          '<span class="raqam">' + (i+1) + '-masala.</span> ' +
+          '<span class="daraja">(' + tozala(m.daraja || "") + ')</span><br>' +
+          tozala(m.masala || "") + '<br>' +
+          '<button class="javob-tugma" data-i="' + i + '">Javobni ko\'rish</button>' +
+          '<div class="mashq-javob" id="mjavob-' + i + '">Javob: ' + tozala(m.javob || "") + '</div>' +
+        '</div>'
+      ).join("");
+
+      mashqlarEl.style.display = "block";
+      mashqlarEl.scrollIntoView({ behavior:"smooth", block:"start" });
+    } catch(err){
+      console.error(err);
+      xatoKorsat("Mashqlarni tayyorlab bo'lmadi. Qayta urinib ko'ring.");
+    } finally{
+      mashqTugma.disabled = false;
+      mashqTugma.textContent = "✏️ Qo'shimcha mashq olish";
+    }
+  });
+
+  // Javobni ko'rish / yashirish
+  mashqRoyxat.addEventListener("click", (e) => {
+    const t = e.target.closest(".javob-tugma");
+    if (!t) return;
+    const j = document.getElementById("mjavob-" + t.dataset.i);
+    const ochiq = j.classList.toggle("ochiq");
+    t.textContent = ochiq ? "Javobni yashirish" : "Javobni ko'rish";
+  });
+
+  // ======= Bo'limlar (tablar) =======
+  document.querySelector(".bolimlar").addEventListener("click", (e) => {
+    const b = e.target.closest(".bolim");
+    if (!b) return;
+    document.querySelectorAll(".bolim").forEach(x => x.classList.remove("aktiv"));
+    b.classList.add("aktiv");
+    document.querySelectorAll(".sahifa").forEach(s => s.classList.remove("aktiv"));
+    document.getElementById("bolim-" + b.dataset.bolim).classList.add("aktiv");
+    if (b.dataset.bolim === "formulalar") formulalarKorsat();
+    if (b.dataset.bolim === "tarix") tarixKorsat();
+  });
+
+  // ======= Formulalar (offlayn ishlaydi) =======
+  const FORMULALAR = {
+    "Fizika": [
+      { n:"Tezlik", f:"v = s / t" },
+      { n:"Yo'l", f:"s = v · t" },
+      { n:"Tezlanish", f:"a = (v − v₀) / t" },
+      { n:"Nyutonning II qonuni", f:"F = m · a" },
+      { n:"Og'irlik kuchi", f:"F = m · g" },
+      { n:"Zichlik", f:"ρ = m / V" },
+      { n:"Bosim", f:"p = F / S" },
+      { n:"Suyuqlik bosimi", f:"p = ρ · g · h" },
+      { n:"Ish", f:"A = F · s" },
+      { n:"Quvvat", f:"N = A / t" },
+      { n:"Kinetik energiya", f:"E = m·v² / 2" },
+      { n:"Potensial energiya", f:"E = m·g·h" },
+      { n:"Om qonuni", f:"I = U / R" },
+      { n:"Elektr quvvati", f:"P = U · I" },
+      { n:"Issiqlik miqdori", f:"Q = c·m·Δt" }
+    ],
+    "Kimyo": [
+      { n:"Modda miqdori", f:"n = m / M" },
+      { n:"Massa", f:"m = n · M" },
+      { n:"Gaz hajmi (n.sh.)", f:"V = n · 22,4 l" },
+      { n:"Zarrachalar soni", f:"N = n · 6,02·10²³" },
+      { n:"Element massa ulushi", f:"ω = m(el) / m(modda) · 100%" },
+      { n:"Eritma konsentratsiyasi", f:"ω = m(modda) / m(eritma) · 100%" },
+      { n:"Molyar konsentratsiya", f:"C = n / V" },
+      { n:"Zichlik", f:"ρ = m / V" }
+    ],
+    "Algebra": [
+      { n:"Kvadrat tenglama", f:"ax² + bx + c = 0" },
+      { n:"Diskriminant", f:"D = b² − 4ac" },
+      { n:"Ildizlar", f:"x = (−b ± √D) / 2a" },
+      { n:"Viyet teoremasi", f:"x₁+x₂ = −b/a,  x₁·x₂ = c/a" },
+      { n:"Yig'indi kvadrati", f:"(a+b)² = a² + 2ab + b²" },
+      { n:"Ayirma kvadrati", f:"(a−b)² = a² − 2ab + b²" },
+      { n:"Kvadratlar ayirmasi", f:"a² − b² = (a−b)(a+b)" },
+      { n:"Darajalar ko'paytmasi", f:"aᵐ · aⁿ = aᵐ⁺ⁿ" },
+      { n:"Darajaning darajasi", f:"(aᵐ)ⁿ = aᵐⁿ" },
+      { n:"Arifmetik progressiya", f:"aₙ = a₁ + (n−1)d" },
+      { n:"Arifm. yig'indisi", f:"Sₙ = (a₁+aₙ)·n / 2" },
+      { n:"Geometrik progressiya", f:"bₙ = b₁ · qⁿ⁻¹" },
+      { n:"Foiz topish", f:"a · p / 100" }
+    ],
+    "Geometriya": [
+      { n:"Uchburchak yuzi", f:"S = a·h / 2" },
+      { n:"Pifagor teoremasi", f:"c² = a² + b²" },
+      { n:"To'g'ri to'rtburchak yuzi", f:"S = a · b" },
+      { n:"Kvadrat yuzi", f:"S = a²" },
+      { n:"Parallelogramm yuzi", f:"S = a · h" },
+      { n:"Trapetsiya yuzi", f:"S = (a+b)/2 · h" },
+      { n:"Doira yuzi", f:"S = πr²" },
+      { n:"Aylana uzunligi", f:"C = 2πr" },
+      { n:"Uchburchak burchaklari", f:"A + B + C = 180°" },
+      { n:"Sinuslar teoremasi", f:"a/sin A = b/sin B = c/sin C" },
+      { n:"Kosinuslar teoremasi", f:"a² = b² + c² − 2bc·cos A" },
+      { n:"Kub hajmi", f:"V = a³" },
+      { n:"Silindr hajmi", f:"V = πr²h" },
+      { n:"Shar hajmi", f:"V = (4/3)πr³" }
+    ]
+  };
+
+  let fFan = "Fizika";
+  document.getElementById("fFanlar").addEventListener("click", (e) => {
+    const btn = e.target.closest(".fan");
+    if (!btn) return;
+    document.querySelectorAll("#fFanlar .fan").forEach(f => f.classList.remove("aktiv"));
+    btn.classList.add("aktiv");
+    fFan = btn.dataset.fan;
+    formulalarKorsat();
+  });
+
+  function formulalarKorsat(){
+    document.getElementById("fRoyxat").innerHTML = FORMULALAR[fFan].map(f =>
+      '<div class="formula-qator"><span class="formula-nom">' + f.n +
+      '</span><span class="formula-ifoda">' + f.f + '</span></div>'
+    ).join("");
+  }
+  formulalarKorsat();
+
+  // ======= Tarix: saqlash va o'qish =======
+  let tarix = [];
+
+  function tarixSaqla(){
+    try{ localStorage.setItem("yechim-tarix", JSON.stringify(tarix)); } catch(e){}
+  }
+
+  function tarixYukla(){
+    try{
+      const s = localStorage.getItem("yechim-tarix");
+      if (s) return JSON.parse(s);
+    } catch(e){}
+    return [];
+  }
+
+  function sanaFormat(t){
+    const d = new Date(t);
+    const p = (x) => String(x).padStart(2, "0");
+    return p(d.getDate()) + "." + p(d.getMonth()+1) + "." + d.getFullYear() +
+      "  " + p(d.getHours()) + ":" + p(d.getMinutes());
+  }
+
+  function qisqart(s, n){
+    s = s || "Rasmli masala";
+    return s.length > n ? s.slice(0, n) + "…" : s;
+  }
+
+  const tarixTozalash = document.getElementById("tarixTozalash");
+  const tarixRoyxatEl = document.getElementById("tarixRoyxat");
+
+  function tarixKorsat(){
+    if (!tarix.length){
+      tarixRoyxatEl.innerHTML =
+        '<div class="tarix-bosh">Hali yechimlar yo\'q.<br>Birinchi masalani yeching — u shu yerda saqlanadi 📒</div>';
+      tarixTozalash.style.display = "none";
+      return;
+    }
+    tarixRoyxatEl.innerHTML = tarix.map((t, i) =>
+      '<div class="tarix-karta" data-i="' + i + '">' +
+        '<div class="tarix-ust">' +
+          '<span class="tarix-fan">' + tozala(t.fan) + '</span>' +
+          '<span>' + sanaFormat(t.vaqt) + '</span>' +
+          '<button class="tarix-och" data-och="' + i + '" title="O\'chirish">✕</button>' +
+        '</div>' +
+        '<div class="tarix-oldin">' + tozala(qisqart(t.masala, 90)) + '</div>' +
+        '<div class="tarix-yechim">' + bezash(t.yechim) + '</div>' +
+      '</div>'
+    ).join("");
+    tarixTozalash.style.display = "block";
+  }
+
+  tarixRoyxatEl.addEventListener("click", (e) => {
+    const och = e.target.closest(".tarix-och");
+    if (och){
+      tarix.splice(Number(och.dataset.och), 1);
+      tarixSaqla();
+      tarixKorsat();
+      return;
+    }
+    const karta = e.target.closest(".tarix-karta");
+    if (karta) karta.classList.toggle("ochiq");
+  });
+
+  tarixTozalash.addEventListener("click", () => {
+    if (tarixTozalash.dataset.tasdiq !== "1"){
+      tarixTozalash.dataset.tasdiq = "1";
+      tarixTozalash.textContent = "Rostdan o'chirilsinmi? Yana bosing";
+      setTimeout(() => {
+        tarixTozalash.dataset.tasdiq = "";
+        tarixTozalash.textContent = "Tarixni tozalash";
+      }, 3000);
+      return;
+    }
+    tarix = [];
+    tarixSaqla();
+    tarixTozalash.dataset.tasdiq = "";
+    tarixTozalash.textContent = "Tarixni tozalash";
+    tarixKorsat();
+  });
+
+  // ======= Gemini API =======
+  async function geminiSorov(qismlar){
+    const javob = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+        encodeURIComponent(apiKalit),
+      {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ contents:[{ parts: qismlar }] })
+      }
+    );
+    const data = await javob.json();
+    if (data.error) throw new Error(data.error.message || "API xatosi");
+    const parts = (((data.candidates || [])[0] || {}).content || {}).parts || [];
+    const toliq = parts.map(p => p.text || "").join("");
+    if (!toliq) throw new Error("Bo'sh javob keldi");
+    return toliq;
+  }
+
+  // ======= API kalit boshqaruvi =======
+  let apiKalit = "";
+  try{ apiKalit = localStorage.getItem("gemini-kalit") || ""; } catch(e){}
+
+  const kalitKarta = document.getElementById("kalitKarta");
+  const kalitInput = document.getElementById("kalitInput");
+
+  function kalitTekshir(){
+    kalitKarta.style.display = apiKalit ? "none" : "block";
+  }
+
+  document.getElementById("kalitSaqlash").addEventListener("click", () => {
+    const k = kalitInput.value.trim();
+    if (!k){ xatoKorsat("Kalitni kiriting."); return; }
+    apiKalit = k;
+    try{ localStorage.setItem("gemini-kalit", k); } catch(e){}
+    kalitInput.value = "";
+    xatoYashir();
+    kalitTekshir();
+  });
+
+  document.getElementById("kalitSozlama").addEventListener("click", () => {
+    // Yechish bo'limiga o'tib, kalit kartasini ochamiz
+    document.querySelectorAll(".bolim").forEach(x => x.classList.remove("aktiv"));
+    document.querySelector('.bolim[data-bolim="yechish"]').classList.add("aktiv");
+    document.querySelectorAll(".sahifa").forEach(s => s.classList.remove("aktiv"));
+    document.getElementById("bolim-yechish").classList.add("aktiv");
+    kalitKarta.style.display = "block";
+    kalitKarta.scrollIntoView({ behavior:"smooth", block:"start" });
+  });
+
+  kalitTekshir();
+
+  // Ilova ochilganda saqlangan tarixni yuklaymiz
+  tarix = tarixYukla();
+
+  // PWA: offlayn kesh uchun service worker (faqat http/https da ishlaydi)
+  if ("serviceWorker" in navigator){
+    navigator.serviceWorker.register("yechim-sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>
