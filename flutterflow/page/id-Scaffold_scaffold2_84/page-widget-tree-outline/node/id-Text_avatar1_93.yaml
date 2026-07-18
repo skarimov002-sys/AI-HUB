@@ -1,0 +1,25 @@
+key: Text_avatar1_93
+type: Text
+props:
+  text:
+    themeStyle: LABEL_MEDIUM
+    translationIdentifier:
+      key: cwfjtors
+    selectable: false
+    textValue:
+      inputValue: AR
+    fontSizeValue:
+      inputValue: 12.16
+    colorValue:
+      inputValue:
+        themeColor: PRIMARY
+    heightValue:
+      inputValue: 1.3
+    maxLinesValue:
+      inputValue: 1
+    fontWeightValue:
+      inputValue: w600
+    textAlignValue:
+      inputValue: ALIGN_CENTER
+    overflowReplacement: CLIP
+name: Avatar Label

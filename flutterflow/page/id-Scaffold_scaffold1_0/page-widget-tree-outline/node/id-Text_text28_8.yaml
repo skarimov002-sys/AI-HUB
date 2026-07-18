@@ -1,0 +1,15 @@
+key: Text_text28_8
+type: Text
+props:
+  text:
+    themeStyle: TITLE_LARGE
+    translationIdentifier:
+      key: v40298z8
+    selectable: false
+    textValue:
+      inputValue: Select Default Model
+    heightValue:
+      inputValue: 1.3
+    fontWeightValue:
+      inputValue: w700
+name: Text

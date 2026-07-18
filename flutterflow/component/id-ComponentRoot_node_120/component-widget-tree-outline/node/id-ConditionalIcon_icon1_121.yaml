@@ -1,0 +1,62 @@
+key: ConditionalIcon_icon1_121
+type: Icon
+props:
+  icon:
+    sizeValue:
+      inputValue: 18
+    colorValue:
+      inputValue:
+        value: "4279900698"
+        paletteColorName: on_surface
+        darkModeColor:
+          value: "4294967295"
+    iconDataValue:
+      inputValue:
+        codePoint: 63667
+        family: MaterialIcons
+        matchTextDirection: false
+        name: memory_rounded
+  visibility:
+    legacyVisible: false
+    visibleValue:
+      variable:
+        source: FUNCTION_CALL
+        defaultValue:
+          serializedValue: "false"
+        functionCall:
+          conditionalValue:
+            ifConditionalValues:
+              - condition:
+                  source: FUNCTION_CALL
+                  functionCall:
+                    values:
+                      - variable:
+                          source: WIDGET_CLASS_PARAMETER
+                          defaultValue:
+                            serializedValue: claude
+                          baseVariable:
+                            widgetClass:
+                              paramIdentifier:
+                                name: role
+                                key: design_system_usr_chat_bubble_chat_bubbleparam_role
+                          nodeKeyRef:
+                            key: ComponentRoot_node_120
+                          uiBuilderValue:
+                            serializedValue: claude
+                      - inputValue:
+                          serializedValue: gemini
+                    condition:
+                      relation: EQUAL_TO
+                value:
+                  inputValue:
+                    serializedValue: "true"
+            elseValue:
+              inputValue:
+                serializedValue: "false"
+            returnParameter:
+              dataType:
+                scalarType: Boolean
+        uiBuilderValue:
+          serializedValue: "false"
+      mostRecentInputValue: false
+name: Icon

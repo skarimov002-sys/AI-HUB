@@ -1,0 +1,25 @@
+translationIdentifier:
+  key: q7gk6q57
+translations:
+  - language:
+      language: en
+    text: Keys are stored locally on your device and never sent to our servers.
+  - language:
+      language: ru
+    text: ""
+  - language:
+      language: tr
+    text: ""
+  - language:
+      language: ar
+    text: ""
+  - language:
+      language: fr
+    text: ""
+  - language:
+      language: zh_Hant
+    text: ""
+  - language:
+      language: ja
+    text: ""
+isFixed: false

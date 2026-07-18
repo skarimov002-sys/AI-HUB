@@ -1,0 +1,12 @@
+active: true
+firebase: {}
+firebaseConfigFileInfos:
+  - androidPath: users/bf0Wyp94KHSX80nv2ttcIkPdJQ33/projects/orange-a-i-hub-oxjevm/configs/4x8ldqr0z1ps/google-services.json
+    iosPath: users/bf0Wyp94KHSX80nv2ttcIkPdJQ33/projects/orange-a-i-hub-oxjevm/configs/13n03sy53w0v/GoogleService-Info.plist
+    webConfig: "\/\/ Copy and paste this into your JavaScript code to initialize the Firebase SDK.\n\/\/ You will also need to load the Firebase SDK.\n\/\/ See https:\/\/firebase.google.com\/docs\/web\/setup for more details.\n\nfirebase.initializeApp({\n  \"projectId\": \"orange-a-i-hub-oxjevm\",\n  \"appId\": \"1:887690321833:web:6e4d54b5ab7d147a5daeb8\",\n  \"storageBucket\": \"orange-a-i-hub-oxjevm.firebasestorage.app\",\n  \"apiKey\": \"AIzaSyD-iSI3ZfprPuwSH3OprGsaZ8ZAkCo1CVo\",\n  \"authDomain\": \"orange-a-i-hub-oxjevm.firebaseapp.com\",\n  \"messagingSenderId\": \"887690321833\",\n  \"projectNumber\": \"887690321833\",\n  \"version\": \"2\"\n});\n"
+    androidPackageNames:
+      - com.mycompany.orangeaihub
+    iosBundleId: com.mycompany.orangeaihub
+    environment:
+      name: Production
+      key: PROD

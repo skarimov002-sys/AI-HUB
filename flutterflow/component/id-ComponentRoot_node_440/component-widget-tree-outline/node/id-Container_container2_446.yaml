@@ -1,0 +1,65 @@
+key: Container_container2_446
+type: Container
+props:
+  container:
+    dimensions:
+      width:
+        pixelsValue:
+          inputValue: 120
+    boxDecoration:
+      borderRadius:
+        type: FF_BORDER_RADIUS_ALL
+        allValue:
+          inputValue: 12
+      boxShape: FF_BOX_SHAPE_RECTANGLE
+      colorValue:
+        variable:
+          source: FUNCTION_CALL
+          defaultValue:
+            color:
+              value: "4293980400"
+              paletteColorName: surface_variant
+              darkModeColor:
+                value: "4281084972"
+          functionCall:
+            conditionalValue:
+              ifConditionalValues:
+                - condition:
+                    source: WIDGET_CLASS_PARAMETER
+                    defaultValue:
+                      serializedValue: "true"
+                    baseVariable:
+                      widgetClass:
+                        paramIdentifier:
+                          name: isAi
+                          key: design_system_usr_theme_preview_bubble_theme_preview_bubbleparam_is_ai
+                    nodeKeyRef:
+                      key: ComponentRoot_node_440
+                    uiBuilderValue:
+                      serializedValue: "true"
+                  value:
+                    inputValue:
+                      color:
+                        value: "4293980400"
+                        paletteColorName: surface_variant
+                        darkModeColor:
+                          value: "4281084972"
+              elseValue:
+                inputValue:
+                  color:
+                    themeColor: PRIMARY
+              returnParameter:
+                dataType:
+                  scalarType: Color
+          uiBuilderValue:
+            color:
+              value: "4293980400"
+              paletteColorName: surface_variant
+              darkModeColor:
+                value: "4281084972"
+        mostRecentInputValue:
+          value: "4293980400"
+          paletteColorName: surface_variant
+          darkModeColor:
+            value: "4281084972"
+name: Container

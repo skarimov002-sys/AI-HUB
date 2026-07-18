@@ -1,0 +1,17 @@
+key: Row_row27_162
+type: Row
+props:
+  row:
+    mainAxisAlignment: main_axis_start
+    crossAxisAlignment: cross_axis_center
+    scrollable: true
+    listSpacing:
+      spacingValue:
+        inputValue: 4
+    minSizeValue:
+      inputValue: true
+  expanded:
+    expandedType: EXPANDED
+    flexValue:
+      inputValue: 1
+name: Row

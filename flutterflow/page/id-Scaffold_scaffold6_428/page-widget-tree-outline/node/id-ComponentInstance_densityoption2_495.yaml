@@ -1,0 +1,44 @@
+key: ComponentInstance_densityoption2_495
+type: Container
+props:
+  container: {}
+  expanded:
+    expandedType: EXPANDED
+    flexValue:
+      inputValue: 1
+name: DensityOption
+parameterValues:
+  parameterPasses:
+    design_system_usr_density_option_density_optionparam_icon:
+      paramIdentifier:
+        name: icon
+        key: design_system_usr_density_option_density_optionparam_icon
+      widgetProperty:
+        icon:
+          sizeValue:
+            inputValue: 24
+          colorValue:
+            inputValue:
+              themeColor: PRIMARY
+          iconDataValue:
+            inputValue:
+              codePoint: 983812
+              family: MaterialIcons
+              matchTextDirection: false
+              name: density_small_rounded
+    design_system_usr_density_option_density_optionparam_label:
+      paramIdentifier:
+        name: label
+        key: design_system_usr_density_option_density_optionparam_label
+      inputValue:
+        serializedValue: Comfort
+    design_system_usr_density_option_density_optionparam_selected:
+      paramIdentifier:
+        name: selected
+        key: design_system_usr_density_option_density_optionparam_selected
+      inputValue:
+        serializedValue: "true"
+  widgetClassNodeKeyRef:
+    key: ComponentRoot_node_487
+componentClassKeyRef:
+  key: ComponentRoot_node_487

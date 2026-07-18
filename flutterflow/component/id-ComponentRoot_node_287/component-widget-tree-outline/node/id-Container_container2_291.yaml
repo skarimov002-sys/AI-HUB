@@ -1,0 +1,32 @@
+key: Container_container2_291
+type: Container
+props:
+  container:
+    dimensions:
+      width:
+        pixelsValue:
+          inputValue: 44
+      height:
+        pixelsValue:
+          inputValue: 44
+    boxDecoration:
+      boxShape: FF_BOX_SHAPE_RECTANGLE
+      colorValue:
+        variable:
+          source: WIDGET_CLASS_PARAMETER
+          defaultValue:
+            color:
+              value: "4294940672"
+          baseVariable:
+            widgetClass:
+              paramIdentifier:
+                name: modelColor
+                key: design_system_usr_history_item_history_itemparam_model_color
+          nodeKeyRef:
+            key: ComponentRoot_node_287
+          uiBuilderValue:
+            color:
+              value: "4294940672"
+        mostRecentInputValue:
+          value: "4294940672"
+name: Container

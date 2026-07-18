@@ -1,0 +1,25 @@
+translationIdentifier:
+  key: 4bj864a6
+translations:
+  - language:
+      language: en
+    text: Hello! I'm Claude. How can I help you explore the Nexus AI Hub today?
+  - language:
+      language: ru
+    text: ""
+  - language:
+      language: tr
+    text: ""
+  - language:
+      language: ar
+    text: ""
+  - language:
+      language: fr
+    text: ""
+  - language:
+      language: zh_Hant
+    text: ""
+  - language:
+      language: ja
+    text: ""
+isFixed: false

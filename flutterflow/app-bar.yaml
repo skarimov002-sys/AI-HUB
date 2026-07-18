@@ -1,0 +1,23 @@
+templateType: LARGE_HEADER
+backgroundColor:
+  themeColor: INFO
+elevation: 2
+defaultIcon:
+  sizeValue:
+    inputValue: 30
+  colorValue:
+    inputValue:
+      value: "4294967295"
+  iconDataValue:
+    inputValue:
+      codePoint: 57490
+      family: MaterialIcons
+      matchTextDirection: true
+      name: arrow_back
+textStyle:
+  themeStyle: HEADLINE_MEDIUM
+addOnNewPages: true
+responsiveVisibility:
+  phoneHidden: false
+  tabletHidden: false
+  tabletLandscapeHidden: false

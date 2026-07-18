@@ -1,0 +1,16 @@
+key: Text_text30_238
+type: Text
+props:
+  text:
+    themeStyle: LABEL_SMALL
+    translationIdentifier:
+      key: bdaw44sb
+    selectable: false
+    textValue:
+      inputValue: Gemini
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    heightValue:
+      inputValue: 1.2
+name: Text

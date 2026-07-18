@@ -1,0 +1,34 @@
+key: Text_text1_292
+type: Text
+props:
+  text:
+    themeStyle: TITLE_MEDIUM
+    translationIdentifier:
+      key: 20ws91so
+    selectable: false
+    textValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          serializedValue: Refactoring Flutter DSL
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: title
+              key: design_system_usr_history_item_history_itemparam_title
+        nodeKeyRef:
+          key: ComponentRoot_node_287
+        uiBuilderValue:
+          serializedValue: Refactoring Flutter DSL
+      mostRecentInputValue: Refactoring Flutter DSL
+    colorValue:
+      inputValue:
+        themeColor: PRIMARY_TEXT
+    heightValue:
+      inputValue: 1.4
+    maxLinesValue:
+      inputValue: 1
+    fontWeightValue:
+      inputValue: w700
+    overflowReplacement: ELLIPSIS
+name: Text

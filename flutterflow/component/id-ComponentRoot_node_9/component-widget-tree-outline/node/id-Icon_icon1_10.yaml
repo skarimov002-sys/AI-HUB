@@ -1,0 +1,86 @@
+key: Icon_icon1_10
+type: Icon
+props:
+  icon:
+    sizeValue:
+      inputValue: 24
+    colorValue:
+      variable:
+        source: FUNCTION_CALL
+        defaultValue:
+          color:
+            themeColor: PRIMARY
+        functionCall:
+          conditionalValue:
+            ifConditionalValues:
+              - condition:
+                  source: WIDGET_CLASS_PARAMETER
+                  defaultValue:
+                    serializedValue: "true"
+                  baseVariable:
+                    widgetClass:
+                      paramIdentifier:
+                        name: selected
+                        key: design_system_usr_model_card_model_cardparam_selected
+                  nodeKeyRef:
+                    key: ComponentRoot_node_9
+                  uiBuilderValue:
+                    serializedValue: "true"
+                value:
+                  inputValue:
+                    color:
+                      themeColor: PRIMARY
+            elseValue:
+              inputValue:
+                color:
+                  themeColor: SECONDARY_TEXT
+            returnParameter:
+              dataType:
+                scalarType: Color
+        uiBuilderValue:
+          color:
+            themeColor: PRIMARY
+      mostRecentInputValue:
+        themeColor: PRIMARY
+    iconDataValue:
+      inputValue:
+        codePoint: 62870
+        family: MaterialIcons
+        matchTextDirection: false
+        name: auto_awesome_rounded
+    variable:
+      source: WIDGET_CLASS_PARAMETER
+      defaultValue:
+        icon:
+          sizeValue:
+            inputValue: 24
+          colorValue:
+            inputValue:
+              themeColor: PRIMARY_TEXT
+          iconDataValue:
+            inputValue:
+              codePoint: 62870
+              family: MaterialIcons
+              matchTextDirection: false
+              name: auto_awesome_rounded
+      baseVariable:
+        widgetClass:
+          paramIdentifier:
+            name: icon
+            key: design_system_usr_model_card_model_cardparam_icon
+      nodeKeyRef:
+        key: ComponentRoot_node_9
+      uiBuilderValue:
+        icon:
+          sizeValue:
+            inputValue: 24
+          colorValue:
+            inputValue:
+              themeColor: PRIMARY_TEXT
+          iconDataValue:
+            inputValue:
+              codePoint: 62870
+              family: MaterialIcons
+              matchTextDirection: false
+              name: auto_awesome_rounded
+name: Icon

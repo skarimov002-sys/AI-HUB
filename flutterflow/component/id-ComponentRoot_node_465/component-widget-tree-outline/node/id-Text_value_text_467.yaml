@@ -1,0 +1,47 @@
+key: Text_value_text_467
+type: Text
+props:
+  text:
+    themeStyle: LABEL_MEDIUM
+    selectable: false
+    textValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          serializedValue: ""
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: valueLabel
+              key: design_system_std_slider_std_sliderparam_value_label
+        nodeKeyRef:
+          key: ComponentRoot_node_465
+        uiBuilderValue:
+          serializedValue: ""
+      mostRecentInputValue: ""
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    heightValue:
+      inputValue: 1.3
+    maxLinesValue:
+      inputValue: 1
+    overflowReplacement: ELLIPSIS
+  visibility:
+    legacyVisible: false
+    visibleValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          serializedValue: "false"
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: valueLabelPresent
+              key: design_system_std_slider_std_sliderparam_value_label_present
+        nodeKeyRef:
+          key: ComponentRoot_node_465
+        uiBuilderValue:
+          serializedValue: "false"
+      mostRecentInputValue: false
+name: Text

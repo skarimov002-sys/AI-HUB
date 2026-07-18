@@ -1,0 +1,15 @@
+key: Text_text45_486
+type: Text
+props:
+  text:
+    themeStyle: TITLE_MEDIUM
+    translationIdentifier:
+      key: n8t6es9k
+    selectable: false
+    textValue:
+      inputValue: Interface Density
+    heightValue:
+      inputValue: 1.4
+    fontWeightValue:
+      inputValue: w700
+name: Text

@@ -1,0 +1,31 @@
+key: LogoIcon_logoicon1_193
+type: Image
+props:
+  image:
+    type: FF_IMAGE_TYPE_NETWORK
+    fit: FF_BOX_FIT_CONTAIN
+    dimensions:
+      width:
+        pixelsValue:
+          inputValue: 18
+      height:
+        pixelsValue:
+          inputValue: 18
+    cached: true
+    pathValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          serializedValue: https://cdn.simpleicons.org/anthropic.svg
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: iconSlug
+              key: design_system_usr_model_response_card_model_response_cardparam_icon_slug
+        nodeKeyRef:
+          key: ComponentRoot_node_192
+        uiBuilderValue:
+          serializedValue: https://cdn.simpleicons.org/anthropic.svg
+      mostRecentInputValue: https://cdn.simpleicons.org/anthropic.svg
+    format: FF_IMAGE_FORMAT_SVG
+name: LogoIcon

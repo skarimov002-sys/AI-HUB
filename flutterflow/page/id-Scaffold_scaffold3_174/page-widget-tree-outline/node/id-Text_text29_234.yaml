@@ -1,0 +1,16 @@
+key: Text_text29_234
+type: Text
+props:
+  text:
+    themeStyle: LABEL_SMALL
+    translationIdentifier:
+      key: 17f1o7sn
+    selectable: false
+    textValue:
+      inputValue: GPT-4
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    heightValue:
+      inputValue: 1.2
+name: Text
