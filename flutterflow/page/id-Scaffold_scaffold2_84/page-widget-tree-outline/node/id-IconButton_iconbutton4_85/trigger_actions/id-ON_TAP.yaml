@@ -1,6 +1,0 @@
-rootAction:
-  key: nav_ChatHistory_iconbutton4
-  action:
-    key: ry71fxpr
-trigger:
-  triggerType: ON_TAP

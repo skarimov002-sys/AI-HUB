@@ -1,6 +1,0 @@
-rootAction:
-  key: nav_APISettings_iconbutton5
-  action:
-    key: n8kn9tas
-trigger:
-  triggerType: ON_TAP
