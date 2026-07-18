@@ -1,19 +1,18 @@
 // Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
 
 import '/backend/ai_providers/ai_providers.dart';
-import '/components/button/button_widget.dart';
+import '/backend/prompt_templates.dart';
+import '/backend/speech/speech_input.dart';
 import '/components/chat_bubble/chat_bubble_widget.dart';
 import '/components/model_chip/model_chip_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'main_chat_interface_model.dart';
 export 'main_chat_interface_model.dart';
 
@@ -32,6 +31,12 @@ class _MainChatInterfaceWidgetState extends State<MainChatInterfaceWidget> {
   late MainChatInterfaceModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final SpeechInput _speech = SpeechInput();
+  final ScrollController _chatScrollController = ScrollController();
+
+  // The text already in the input field when listening started; recognized
+  // speech is appended after it.
+  String _textBeforeSpeech = '';
 
   @override
   void initState() {
@@ -63,15 +68,245 @@ class _MainChatInterfaceWidgetState extends State<MainChatInterfaceWidget> {
     if (!_isAvailable(provider)) {
       showSnackbar(
         context,
-        '${provider.displayName} is coming soon — its API key hasn\'t been added yet.',
+        '${provider.displayName} tez orada qo\'shiladi — API kaliti hali sozlanmagan.',
       );
       return;
     }
     safeSetState(() => _model.selectedProvider = provider);
   }
 
+  TextEditingController? get _inputController =>
+      _model.textFieldModel.inputTextController;
+
+  /// Fills the input field with a template's starter prompt so the user can
+  /// finish the sentence before sending.
+  void _applyTemplate(PromptTemplate template) {
+    _inputController?.text = template.starterPrompt;
+    _inputController?.selection = TextSelection.collapsed(
+      offset: template.starterPrompt.length,
+    );
+    _model.textFieldModel.inputFocusNode?.requestFocus();
+    safeSetState(() {});
+  }
+
+  void _scrollChatToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_chatScrollController.hasClients) {
+        _chatScrollController
+            .jumpTo(_chatScrollController.position.maxScrollExtent);
+      }
+    });
+  }
+
+  String _nowTime() => dateTimeFormat('HH:mm', getCurrentTimestamp);
+
+  Future<void> _sendMessage() async {
+    final text = _inputController?.text.trim() ?? '';
+    if (text.isEmpty || _model.isGenerating) {
+      return;
+    }
+    if (!_isAvailable(_model.selectedProvider)) {
+      showSnackbar(
+        context,
+        '${_model.selectedProvider.displayName} tez orada qo\'shiladi — API kaliti hali sozlanmagan.',
+      );
+      return;
+    }
+    if (_speech.isListening) {
+      await _speech.stop();
+      _model.isListening = false;
+    }
+
+    safeSetState(() {
+      _model.messages
+          .add(ChatMessage(text: text, isUser: true, time: _nowTime()));
+      _model.isGenerating = true;
+      _inputController?.clear();
+    });
+    _scrollChatToBottom();
+
+    final reply = await aiGenerateText(context, _model.selectedProvider, text);
+    if (!mounted) {
+      return;
+    }
+    safeSetState(() {
+      _model.isGenerating = false;
+      if (reply != null && reply.isNotEmpty) {
+        _model.messages
+            .add(ChatMessage(text: reply, isUser: false, time: _nowTime()));
+      }
+    });
+    _scrollChatToBottom();
+  }
+
+  /// Tap: start/stop voice input. The recognized words are appended to
+  /// whatever was already typed.
+  Future<void> _toggleListening() async {
+    if (_speech.isListening) {
+      await _speech.stop();
+      safeSetState(() => _model.isListening = false);
+      return;
+    }
+
+    final available = await _speech.init(onStatus: (status) {
+      if ((status == 'done' || status == 'notListening' || status == 'error') &&
+          mounted) {
+        safeSetState(() => _model.isListening = false);
+      }
+    });
+    if (!mounted) {
+      return;
+    }
+    if (!available) {
+      showSnackbar(context, 'Ovozli kiritish bu qurilmada mavjud emas.');
+      return;
+    }
+
+    _textBeforeSpeech =
+        _inputController != null && _inputController!.text.isNotEmpty
+            ? '${_inputController!.text.trimRight()} '
+            : '';
+    final started =
+        await _speech.start(_model.speechLanguageCode, (recognizedText) {
+      _inputController?.text = '$_textBeforeSpeech$recognizedText';
+      _inputController?.selection = TextSelection.collapsed(
+        offset: _inputController!.text.length,
+      );
+    });
+    if (!mounted) {
+      return;
+    }
+    if (!started) {
+      showSnackbar(
+        context,
+        _model.speechLanguageCode == 'uz'
+            ? 'Bu qurilmada o\'zbekcha ovozni aniqlash mavjud emas.'
+            : 'Bu qurilmada ruscha ovozni aniqlash mavjud emas.',
+      );
+      return;
+    }
+    safeSetState(() => _model.isListening = true);
+  }
+
+  /// Long-press: switch the voice input language between Uzbek and Russian.
+  void _toggleSpeechLanguage() {
+    safeSetState(() {
+      _model.speechLanguageCode =
+          _model.speechLanguageCode == 'uz' ? 'ru' : 'uz';
+    });
+    showSnackbar(
+      context,
+      _model.speechLanguageCode == 'uz'
+          ? 'Ovoz tili: O\'zbekcha'
+          : 'Ovoz tili: Ruscha',
+    );
+  }
+
+  /// Shown when the conversation is empty: a welcome heading plus the quick
+  /// prompt template cards.
+  Widget _buildEmptyChatState(BuildContext context) {
+    return SingleChildScrollView(
+      primary: false,
+      child: Padding(
+        padding: EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: 24.0),
+            Text(
+              'Nimadan boshlaymiz?',
+              textAlign: TextAlign.center,
+              style: FlutterFlowTheme.of(context).headlineSmall.override(
+                    font: GoogleFonts.plusJakartaSans(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    letterSpacing: 0.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              'Quyidagi shablonlardan birini tanlang yoki o\'z savolingizni yozing.',
+              textAlign: TextAlign.center,
+              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                    font: GoogleFonts.plusJakartaSans(),
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    letterSpacing: 0.0,
+                  ),
+            ),
+            SizedBox(height: 24.0),
+            Wrap(
+              spacing: 12.0,
+              runSpacing: 12.0,
+              alignment: WrapAlignment.center,
+              children: promptTemplates
+                  .map((template) => _buildTemplateCard(context, template))
+                  .toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTemplateCard(BuildContext context, PromptTemplate template) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(16.0),
+      onTap: () => _applyTemplate(template),
+      child: Container(
+        width: 160.0,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: FlutterFlowTheme.of(context).secondaryBackground,
+          borderRadius: BorderRadius.circular(16.0),
+          border: Border.all(
+            color: FlutterFlowTheme.of(context).alternate,
+            width: 1.0,
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              template.icon,
+              color: FlutterFlowTheme.of(context).primary,
+              size: 28.0,
+            ),
+            SizedBox(height: 12.0),
+            Text(
+              template.title,
+              style: FlutterFlowTheme.of(context).titleSmall.override(
+                    font: GoogleFonts.plusJakartaSans(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    letterSpacing: 0.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            SizedBox(height: 4.0),
+            Text(
+              template.description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: FlutterFlowTheme.of(context).bodySmall.override(
+                    font: GoogleFonts.plusJakartaSans(),
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    letterSpacing: 0.0,
+                  ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
+    _speech.stop();
+    _chatScrollController.dispose();
     _model.dispose();
 
     super.dispose();
@@ -411,190 +646,39 @@ class _MainChatInterfaceWidgetState extends State<MainChatInterfaceWidget> {
             ),
             Expanded(
               flex: 1,
-              child: Container(
-                child: SingleChildScrollView(
-                  primary: false,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
+              child: _model.messages.isEmpty
+                  ? _buildEmptyChatState(context)
+                  : SingleChildScrollView(
+                      controller: _chatScrollController,
+                      primary: false,
+                      child: Padding(
                         padding: EdgeInsets.all(24.0),
-                        child: Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              wrapWithModel(
-                                model: _model.chatBubbleModel1,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ChatBubbleWidget(
-                                  message:
-                                      'Hello! I\'m Claude. How can I help you explore the Nexus AI Hub today?',
-                                  time: '10:02 AM',
-                                  tone: Color(0x26FF9800),
-                                  role: 'claude',
-                                ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ..._model.messages.map(
+                              (message) => ChatBubbleWidget(
+                                message: message.text,
+                                time: message.time,
+                                tone: Color(0x26FF9800),
+                                role: message.isUser
+                                    ? 'user'
+                                    : _model.selectedProvider.id,
                               ),
-                              wrapWithModel(
-                                model: _model.chatBubbleModel2,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ChatBubbleWidget(
-                                  message:
-                                      'Can you compare the reasoning capabilities of Gemini and GPT-4o?',
-                                  time: '10:05 AM',
-                                  tone: Color(0x26FF9800),
-                                  role: 'user',
-                                ),
+                            ),
+                            if (_model.isGenerating)
+                              ChatBubbleWidget(
+                                message: 'Yozmoqda...',
+                                time: '',
+                                tone: Color(0x26FF9800),
+                                role: _model.selectedProvider.id,
                               ),
-                              wrapWithModel(
-                                model: _model.chatBubbleModel3,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ChatBubbleWidget(
-                                  message:
-                                      'Certainly. GPT-4o typically excels in creative synthesis and complex coding tasks, while Gemini 1.5 Pro offers a massive context window and strong multimodal integration. Would you like to switch models to test them side-by-side?',
-                                  time: '10:05 AM',
-                                  tone: Color(0x26FF9800),
-                                  role: 'claude',
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context).primary5,
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color:
-                                        FlutterFlowTheme.of(context).primary20,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(24.0),
-                                  child: Container(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          FFLocalizations.of(context).getText(
-                                            '8027jfll' /* Compare Models */,
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .titleSmall
-                                              .override(
-                                                font:
-                                                    GoogleFonts.plusJakartaSans(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
-                                                          .fontStyle,
-                                                ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .onSecondary,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .fontStyle,
-                                                lineHeight: 1.4,
-                                              ),
-                                        ),
-                                        Text(
-                                          FFLocalizations.of(context).getText(
-                                            'noyfn8gf' /* Run this prompt across all act... */,
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodySmall
-                                              .override(
-                                                font:
-                                                    GoogleFonts.plusJakartaSans(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodySmall
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodySmall
-                                                          .fontStyle,
-                                                ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .onSecondary,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodySmall
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodySmall
-                                                        .fontStyle,
-                                                lineHeight: 1.4,
-                                              ),
-                                        ),
-                                        InkWell(
-                                          splashColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            logFirebaseEvent(
-                                                'MAIN_CHAT_INTERFACE_PAGE_Button_ON_TAP');
-                                            logFirebaseEvent(
-                                                'Button_navigate_to');
-
-                                            context.goNamed(
-                                                ModelComparisonWidget
-                                                    .routeName);
-                                          },
-                                          child: wrapWithModel(
-                                            model: _model.buttonModel,
-                                            updateCallback: () =>
-                                                safeSetState(() {}),
-                                            child: ButtonWidget(
-                                              icon: Icon(
-                                                Icons.compare_arrows_rounded,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                size: 24.0,
-                                              ),
-                                              iconPresent: true,
-                                              iconEndPresent: false,
-                                              content: 'Start Comparison',
-                                              variant: 'outline',
-                                              size: 'small',
-                                              fullWidth: false,
-                                              loading: false,
-                                              disabled: false,
-                                            ),
-                                          ),
-                                        ),
-                                      ].divide(SizedBox(height: 8.0)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ].divide(SizedBox(height: 16.0)),
-                          ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
             ),
             Container(
               decoration: BoxDecoration(
@@ -652,7 +736,7 @@ class _MainChatInterfaceWidgetState extends State<MainChatInterfaceWidget> {
                                     helperPresent: false,
                                     leadingIconPresent: false,
                                     trailingIconPresent: false,
-                                    hint: 'Ask Nexus anything...',
+                                    hint: 'Nexus\'dan xohlagan narsangizni so\'rang...',
                                     value: '',
                                     onChange: '',
                                     onSubmit: '',
@@ -661,23 +745,56 @@ class _MainChatInterfaceWidgetState extends State<MainChatInterfaceWidget> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                width: 48.0,
-                                height: 48.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  borderRadius: BorderRadius.circular(9999.0),
-                                  shape: BoxShape.rectangle,
-                                ),
-                                alignment: AlignmentDirectional(0.0, 0.0),
-                                child: Icon(
-                                  Icons.arrow_upward_rounded,
-                                  color:
-                                      FlutterFlowTheme.of(context).onSecondary,
-                                  size: 24.0,
+                              // Voice input: tap to talk, long-press to
+                              // switch language (Uzbek/Russian).
+                              GestureDetector(
+                                onLongPress: _toggleSpeechLanguage,
+                                child: FlutterFlowIconButton(
+                                  borderRadius: 9999.0,
+                                  buttonSize: 48.0,
+                                  fillColor: _model.isListening
+                                      ? FlutterFlowTheme.of(context).error
+                                      : FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                  icon: Icon(
+                                    _model.isListening
+                                        ? Icons.mic_rounded
+                                        : Icons.mic_none_rounded,
+                                    color: _model.isListening
+                                        ? FlutterFlowTheme.of(context).onPrimary
+                                        : FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                    size: 24.0,
+                                  ),
+                                  onPressed: _toggleListening,
                                 ),
                               ),
-                            ].divide(SizedBox(width: 16.0)),
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: _sendMessage,
+                                child: Container(
+                                  width: 48.0,
+                                  height: 48.0,
+                                  decoration: BoxDecoration(
+                                    color: _model.isGenerating
+                                        ? FlutterFlowTheme.of(context).alternate
+                                        : FlutterFlowTheme.of(context).primary,
+                                    borderRadius: BorderRadius.circular(9999.0),
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                  child: Icon(
+                                    Icons.arrow_upward_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .onSecondary,
+                                    size: 24.0,
+                                  ),
+                                ),
+                              ),
+                            ].divide(SizedBox(width: 12.0)),
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
