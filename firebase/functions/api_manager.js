@@ -48,6 +48,15 @@ async function makeApiRequest({
       };
     })
     .catch(function (error) {
+      // A network failure (timeout, DNS error, no connection) produces an
+      // error without a response — return a clean 500 instead of crashing.
+      if (!error.response) {
+        return {
+          statusCode: 500,
+          headers: {},
+          error: error.message,
+        };
+      }
       return {
         statusCode: error.response.status,
         headers: error.response.headers,

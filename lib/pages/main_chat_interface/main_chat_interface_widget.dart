@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
 
+import '/backend/ai_providers/ai_providers.dart';
 import '/components/button/button_widget.dart';
 import '/components/chat_bubble/chat_bubble_widget.dart';
 import '/components/model_chip/model_chip_widget.dart';
@@ -39,6 +40,34 @@ class _MainChatInterfaceWidgetState extends State<MainChatInterfaceWidget> {
 
     logFirebaseEvent('screen_view',
         parameters: {'screen_name': 'MainChatInterface'});
+
+    // Ask the server which AI providers have keys configured; chips for the
+    // others render as "coming soon".
+    fetchAvailableProviders().then((providers) {
+      if (!mounted) {
+        return;
+      }
+      _model.availableProviders = providers;
+      if (!providers.contains(_model.selectedProvider) &&
+          providers.isNotEmpty) {
+        _model.selectedProvider = providers.first;
+      }
+      safeSetState(() {});
+    });
+  }
+
+  bool _isAvailable(AiProvider provider) =>
+      _model.availableProviders.contains(provider);
+
+  void _selectProvider(AiProvider provider) {
+    if (!_isAvailable(provider)) {
+      showSnackbar(
+        context,
+        '${provider.displayName} is coming soon — its API key hasn\'t been added yet.',
+      );
+      return;
+    }
+    safeSetState(() => _model.selectedProvider = provider);
   }
 
   @override
@@ -273,60 +302,100 @@ class _MainChatInterfaceWidgetState extends State<MainChatInterfaceWidget> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  wrapWithModel(
-                                    model: _model.modelChipModel1,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: ModelChipWidget(
-                                      icon: Icon(
-                                        Icons.auto_awesome_rounded,
-                                        color: FlutterFlowTheme.of(context)
-                                            .onPrimary,
-                                        size: 16.0,
+                                  GestureDetector(
+                                    onTap: () =>
+                                        _selectProvider(AiProvider.claude),
+                                    child: wrapWithModel(
+                                      model: _model.modelChipModel1,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ModelChipWidget(
+                                        icon: Icon(
+                                          Icons.auto_awesome_rounded,
+                                          color: _model.selectedProvider ==
+                                                  AiProvider.claude
+                                              ? FlutterFlowTheme.of(context)
+                                                  .onPrimary
+                                              : FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                          size: 16.0,
+                                        ),
+                                        name: AiProvider.claude.displayName,
+                                        active: _model.selectedProvider ==
+                                            AiProvider.claude,
+                                        comingSoon:
+                                            !_isAvailable(AiProvider.claude),
                                       ),
-                                      name: 'Claude',
-                                      active: true,
                                     ),
                                   ),
-                                  wrapWithModel(
-                                    model: _model.modelChipModel2,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: ModelChipWidget(
-                                      icon: Icon(
-                                        Icons.memory_rounded,
-                                        color: FlutterFlowTheme.of(context)
-                                            .onPrimary,
-                                        size: 16.0,
+                                  GestureDetector(
+                                    onTap: () =>
+                                        _selectProvider(AiProvider.gemini),
+                                    child: wrapWithModel(
+                                      model: _model.modelChipModel2,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ModelChipWidget(
+                                        icon: Icon(
+                                          Icons.memory_rounded,
+                                          color: _model.selectedProvider ==
+                                                  AiProvider.gemini
+                                              ? FlutterFlowTheme.of(context)
+                                                  .onPrimary
+                                              : FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                          size: 16.0,
+                                        ),
+                                        name: AiProvider.gemini.displayName,
+                                        active: _model.selectedProvider ==
+                                            AiProvider.gemini,
+                                        comingSoon:
+                                            !_isAvailable(AiProvider.gemini),
                                       ),
-                                      name: 'Gemini',
-                                      active: true,
                                     ),
                                   ),
-                                  wrapWithModel(
-                                    model: _model.modelChipModel3,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: ModelChipWidget(
-                                      icon: Icon(
-                                        Icons.smart_toy_rounded,
-                                        color: FlutterFlowTheme.of(context)
-                                            .onPrimary,
-                                        size: 16.0,
+                                  GestureDetector(
+                                    onTap: () =>
+                                        _selectProvider(AiProvider.gpt),
+                                    child: wrapWithModel(
+                                      model: _model.modelChipModel3,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ModelChipWidget(
+                                        icon: Icon(
+                                          Icons.smart_toy_rounded,
+                                          color: _model.selectedProvider ==
+                                                  AiProvider.gpt
+                                              ? FlutterFlowTheme.of(context)
+                                                  .onPrimary
+                                              : FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                          size: 16.0,
+                                        ),
+                                        name: AiProvider.gpt.displayName,
+                                        active: _model.selectedProvider ==
+                                            AiProvider.gpt,
+                                        comingSoon:
+                                            !_isAvailable(AiProvider.gpt),
                                       ),
-                                      name: 'GPT-4o',
-                                      active: true,
                                     ),
                                   ),
-                                  wrapWithModel(
-                                    model: _model.modelChipModel4,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: ModelChipWidget(
-                                      icon: Icon(
-                                        Icons.psychology_rounded,
-                                        color: FlutterFlowTheme.of(context)
-                                            .onPrimary,
-                                        size: 16.0,
+                                  GestureDetector(
+                                    onTap: () => showSnackbar(
+                                      context,
+                                      'Llama 3 is coming soon.',
+                                    ),
+                                    child: wrapWithModel(
+                                      model: _model.modelChipModel4,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ModelChipWidget(
+                                        icon: Icon(
+                                          Icons.psychology_rounded,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          size: 16.0,
+                                        ),
+                                        name: 'Llama 3',
+                                        active: false,
+                                        comingSoon: true,
                                       ),
-                                      name: 'Llama 3',
-                                      active: true,
                                     ),
                                   ),
                                 ].divide(SizedBox(width: 16.0)),

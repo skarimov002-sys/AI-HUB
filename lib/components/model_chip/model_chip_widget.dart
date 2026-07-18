@@ -16,12 +16,17 @@ class ModelChipWidget extends StatefulWidget {
     this.icon,
     String? name,
     bool? active,
+    bool? comingSoon,
   })  : this.name = name ?? 'Claude',
-        this.active = active ?? true;
+        this.active = active ?? true,
+        this.comingSoon = comingSoon ?? false;
 
   final Widget? icon;
   final String name;
   final bool active;
+
+  /// When true the chip is dimmed, labeled "Soon", and never shows as active.
+  final bool comingSoon;
 
   @override
   State<ModelChipWidget> createState() => _ModelChipWidgetState();
@@ -51,79 +56,64 @@ class _ModelChipWidgetState extends State<ModelChipWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: valueOrDefault<Color>(
-          valueOrDefault<bool>(
-            widget!.active,
-            true,
-          )
+    final isActive = widget.active && !widget.comingSoon;
+    final textColor = isActive
+        ? FlutterFlowTheme.of(context).onPrimary
+        : widget.comingSoon
+            ? FlutterFlowTheme.of(context).secondaryText
+            : FlutterFlowTheme.of(context).primaryText;
+
+    return Opacity(
+      opacity: widget.comingSoon ? 0.6 : 1.0,
+      child: Container(
+        decoration: BoxDecoration(
+          color: isActive
               ? FlutterFlowTheme.of(context).primary
               : FlutterFlowTheme.of(context).secondaryBackground,
-          FlutterFlowTheme.of(context).primary,
-        ),
-        borderRadius: BorderRadius.circular(9999.0),
-        shape: BoxShape.rectangle,
-        border: Border.all(
-          color: valueOrDefault<Color>(
-            valueOrDefault<bool>(
-              widget!.active,
-              true,
-            )
+          borderRadius: BorderRadius.circular(9999.0),
+          shape: BoxShape.rectangle,
+          border: Border.all(
+            color: isActive
                 ? FlutterFlowTheme.of(context).primary
                 : FlutterFlowTheme.of(context).alternate,
-            FlutterFlowTheme.of(context).primary,
-          ),
-          width: valueOrDefault<double>(
-            valueOrDefault<bool>(
-              widget!.active,
-              true,
-            )
-                ? 1.0
-                : 1.0,
-            1.0,
+            width: 1.0,
           ),
         ),
-      ),
-      child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(24.0, 8.0, 24.0, 8.0),
-        child: Container(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              widget!.icon!,
-              Text(
-                valueOrDefault<String>(
-                  widget!.name,
-                  'Claude',
-                ),
-                style: FlutterFlowTheme.of(context).labelLarge.override(
-                      font: GoogleFonts.spaceGrotesk(
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(24.0, 8.0, 24.0, 8.0),
+          child: Container(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                widget!.icon!,
+                Text(
+                  widget.comingSoon
+                      ? '${widget.name} · Soon'
+                      : valueOrDefault<String>(
+                          widget!.name,
+                          'Claude',
+                        ),
+                  style: FlutterFlowTheme.of(context).labelLarge.override(
+                        font: GoogleFonts.spaceGrotesk(
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .labelLarge
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).labelLarge.fontStyle,
+                        ),
+                        color: textColor,
+                        letterSpacing: 0.0,
                         fontWeight:
                             FlutterFlowTheme.of(context).labelLarge.fontWeight,
                         fontStyle:
                             FlutterFlowTheme.of(context).labelLarge.fontStyle,
+                        lineHeight: 1.3,
                       ),
-                      color: valueOrDefault<Color>(
-                        valueOrDefault<bool>(
-                          widget!.active,
-                          true,
-                        )
-                            ? FlutterFlowTheme.of(context).onPrimary
-                            : FlutterFlowTheme.of(context).primaryText,
-                        FlutterFlowTheme.of(context).onPrimary,
-                      ),
-                      letterSpacing: 0.0,
-                      fontWeight:
-                          FlutterFlowTheme.of(context).labelLarge.fontWeight,
-                      fontStyle:
-                          FlutterFlowTheme.of(context).labelLarge.fontStyle,
-                      lineHeight: 1.3,
-                    ),
-              ),
-            ].divide(SizedBox(width: 4.0)),
+                ),
+              ].divide(SizedBox(width: 4.0)),
+            ),
           ),
         ),
       ),

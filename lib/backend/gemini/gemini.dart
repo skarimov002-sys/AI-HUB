@@ -1,97 +1,46 @@
 // Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
 
-import 'dart:io';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
-import 'dart:typed_data';
-import 'package:http/http.dart' as http;
+
+import '/backend/ai_providers/ai_providers.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
-// The API key is supplied at build time, e.g.:
-//   flutter run --dart-define=GEMINI_API_KEY=your-key-here
-const _kGeminiApiKey = String.fromEnvironment('GEMINI_API_KEY');
+// All Gemini requests are routed through the `aiGenerate` Firebase Cloud
+// Function (see firebase/functions/ai_providers.js), so no API key ever
+// ships inside the app.
 
 Future<String?> geminiGenerateText(
   BuildContext context,
   String prompt,
-) async {
-  final model =
-      GenerativeModel(model: 'gemini-1.5-pro', apiKey: _kGeminiApiKey);
-  final content = [Content.text(prompt)];
-
-  try {
-    final response = await model.generateContent(content);
-    return response.text;
-  } catch (e) {
-    showSnackbar(
-      context,
-      e.toString(),
-    );
-    return null;
-  }
-}
+) =>
+    aiGenerateText(context, AiProvider.gemini, prompt);
 
 Future<String?> geminiCountTokens(
   BuildContext context,
   String prompt,
-) async {
-  final model =
-      GenerativeModel(model: 'gemini-1.5-pro', apiKey: _kGeminiApiKey);
-  final content = [Content.text(prompt)];
-
-  try {
-    final response = await model.countTokens(content);
-    return response.totalTokens.toString();
-  } catch (e) {
-    showSnackbar(
-      context,
-      e.toString(),
-    );
-    return null;
-  }
-}
-
-Future<Uint8List> loadImageBytesFromUrl(String imageUrl) async {
-  final response = await http.get(Uri.parse(imageUrl));
-
-  if (response.statusCode == 200) {
-    return response.bodyBytes;
-  } else {
-    throw Exception('Failed to load image');
-  }
-}
+) =>
+    aiGenerateText(context, AiProvider.gemini, prompt, countTokens: true);
 
 Future<String?> geminiTextFromImage(
   BuildContext context,
   String prompt, {
   String? imageNetworkUrl = '',
   FFUploadedFile? uploadImageBytes,
-}) async {
+}) {
   assert(
     imageNetworkUrl != null || uploadImageBytes != null,
     'Either imageNetworkUrl or uploadImageBytes must be provided.',
   );
 
-  final model =
-      GenerativeModel(model: 'gemini-1.5-flash', apiKey: _kGeminiApiKey);
-  final imageBytes = uploadImageBytes != null
-      ? uploadImageBytes.bytes
-      : await loadImageBytesFromUrl(imageNetworkUrl!);
-  final content = [
-    Content.multi([
-      TextPart(prompt),
-      DataPart('image/jpeg', imageBytes!),
-    ])
-  ];
-
-  try {
-    final response = await model.generateContent(content);
-    return response.text;
-  } catch (e) {
-    showSnackbar(
-      context,
-      e.toString(),
-    );
-    return null;
-  }
+  return aiGenerateText(
+    context,
+    AiProvider.gemini,
+    prompt,
+    imageBase64: uploadImageBytes?.bytes != null
+        ? base64Encode(uploadImageBytes!.bytes!)
+        : null,
+    imageUrl: uploadImageBytes == null ? imageNetworkUrl : null,
+  );
 }

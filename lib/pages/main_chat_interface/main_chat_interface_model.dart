@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
 
+import '/backend/ai_providers/ai_providers.dart';
 import '/components/button/button_widget.dart';
 import '/components/chat_bubble/chat_bubble_widget.dart';
 import '/components/model_chip/model_chip_widget.dart';
@@ -17,6 +18,13 @@ import 'package:provider/provider.dart';
 
 class MainChatInterfaceModel extends FlutterFlowModel<MainChatInterfaceWidget> {
   ///  State fields for stateful widgets in this page.
+
+  /// The provider whose chip is currently selected.
+  AiProvider selectedProvider = AiProvider.gemini;
+
+  /// Providers with an API key configured server-side; the rest are shown
+  /// as "coming soon". Refreshed from the Cloud Function on page load.
+  Set<AiProvider> availableProviders = {AiProvider.gemini};
 
   // Model for ModelChip.
   late ModelChipModel modelChipModel1;

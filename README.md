@@ -17,15 +17,29 @@ auth, analytics, and Cloud Functions.
 
 ## Running the app
 
-The Gemini API key is **not** stored in the code. Supply it at build time
-with a `--dart-define` flag:
-
 ```sh
 flutter pub get
-flutter run --dart-define=GEMINI_API_KEY=your-key-here
+flutter run
 ```
 
-Never commit an API key to the repository.
+## AI providers and API keys
+
+The app supports three AI providers: **Gemini**, **GPT (OpenAI)**, and
+**Claude (Anthropic)**. All requests are routed through a Firebase Cloud
+Function (`firebase/functions/ai_providers.js`), so API keys live only on
+the server — never inside the app.
+
+To configure keys:
+
+1. Copy `firebase/functions/.env.example` to `firebase/functions/.env`
+2. Fill in the keys you have (leave the others empty)
+3. Deploy: `firebase deploy --only functions`
+
+Providers without a key automatically appear as **"coming soon"** in the
+app's model selector. Once you add a key and redeploy, that provider's chip
+lights up — no app update needed.
+
+Never commit an API key to the repository (`.env` is gitignored).
 
 ## Running the tests
 

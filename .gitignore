@@ -49,3 +49,4 @@ firebase/functions/node_modules/
 # Secrets — never commit API keys or local environment files
 *.env
 .env*
+!.env.example
