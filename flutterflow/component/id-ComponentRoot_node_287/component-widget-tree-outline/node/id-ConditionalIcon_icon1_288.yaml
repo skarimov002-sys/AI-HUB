@@ -1,0 +1,74 @@
+key: ConditionalIcon_icon1_288
+type: Icon
+props:
+  icon:
+    sizeValue:
+      inputValue: 24
+    colorValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          color:
+            value: "4294940672"
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: modelColor
+              key: design_system_usr_history_item_history_itemparam_model_color
+        nodeKeyRef:
+          key: ComponentRoot_node_287
+        uiBuilderValue:
+          color:
+            value: "4294940672"
+      mostRecentInputValue:
+        value: "4294940672"
+    iconDataValue:
+      inputValue:
+        codePoint: 58121
+        family: MaterialIcons
+        matchTextDirection: false
+        name: help
+  visibility:
+    legacyVisible: false
+    visibleValue:
+      variable:
+        source: FUNCTION_CALL
+        defaultValue:
+          serializedValue: "false"
+        functionCall:
+          conditionalValue:
+            ifConditionalValues:
+              - condition:
+                  source: FUNCTION_CALL
+                  functionCall:
+                    values:
+                      - variable:
+                          source: WIDGET_CLASS_PARAMETER
+                          defaultValue:
+                            serializedValue: claude
+                          baseVariable:
+                            widgetClass:
+                              paramIdentifier:
+                                name: model
+                                key: design_system_usr_history_item_history_itemparam_model
+                          nodeKeyRef:
+                            key: ComponentRoot_node_287
+                          uiBuilderValue:
+                            serializedValue: claude
+                      - inputValue:
+                          serializedValue: gemini
+                    condition:
+                      relation: EQUAL_TO
+                value:
+                  inputValue:
+                    serializedValue: "true"
+            elseValue:
+              inputValue:
+                serializedValue: "false"
+            returnParameter:
+              dataType:
+                scalarType: Boolean
+        uiBuilderValue:
+          serializedValue: "false"
+      mostRecentInputValue: false
+name: Icon

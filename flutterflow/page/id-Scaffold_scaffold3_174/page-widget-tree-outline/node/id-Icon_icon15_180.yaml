@@ -1,0 +1,16 @@
+key: Icon_icon15_180
+type: Icon
+props:
+  icon:
+    sizeValue:
+      inputValue: 20
+    colorValue:
+      inputValue:
+        themeColor: PRIMARY
+    iconDataValue:
+      inputValue:
+        codePoint: 983236
+        family: MaterialIcons
+        matchTextDirection: false
+        name: psychology_rounded
+name: Icon

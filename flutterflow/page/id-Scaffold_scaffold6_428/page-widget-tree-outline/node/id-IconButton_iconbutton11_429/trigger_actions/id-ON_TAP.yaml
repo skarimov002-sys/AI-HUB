@@ -1,0 +1,6 @@
+rootAction:
+  key: nav_MainChatInterface_iconbutton11
+  action:
+    key: ziloighq
+trigger:
+  triggerType: ON_TAP

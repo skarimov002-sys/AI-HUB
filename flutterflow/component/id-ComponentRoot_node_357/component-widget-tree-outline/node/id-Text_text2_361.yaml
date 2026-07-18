@@ -1,0 +1,16 @@
+key: Text_text2_361
+type: Text
+props:
+  text:
+    themeStyle: LABEL_SMALL
+    translationIdentifier:
+      key: nw1hzvpw
+    selectable: false
+    textValue:
+      inputValue: API Configuration
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    heightValue:
+      inputValue: 1.2
+name: Text

@@ -1,0 +1,16 @@
+key: Text_text28_230
+type: Text
+props:
+  text:
+    themeStyle: LABEL_SMALL
+    translationIdentifier:
+      key: uceymics
+    selectable: false
+    textValue:
+      inputValue: Claude
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    heightValue:
+      inputValue: 1.2
+name: Text

@@ -1,0 +1,36 @@
+key: ComponentInstance_modelresponsecard1_217
+type: Container
+props:
+  container: {}
+name: ModelResponseCard
+parameterValues:
+  parameterPasses:
+    design_system_usr_model_response_card_model_response_cardparam_brand_color:
+      paramIdentifier:
+        name: brandColor
+        key: design_system_usr_model_response_card_model_response_cardparam_brand_color
+      inputValue:
+        color:
+          value: "4292441943"
+    design_system_usr_model_response_card_model_response_cardparam_icon_slug:
+      paramIdentifier:
+        name: iconSlug
+        key: design_system_usr_model_response_card_model_response_cardparam_icon_slug
+      inputValue:
+        serializedValue: https://cdn.simpleicons.org/anthropic.svg
+    design_system_usr_model_response_card_model_response_cardparam_model_name:
+      paramIdentifier:
+        name: modelName
+        key: design_system_usr_model_response_card_model_response_cardparam_model_name
+      inputValue:
+        serializedValue: Claude 3.5 Sonnet
+    design_system_usr_model_response_card_model_response_cardparam_response_text:
+      paramIdentifier:
+        name: responseText
+        key: design_system_usr_model_response_card_model_response_cardparam_response_text
+      inputValue:
+        serializedValue: "Imagine you have two magic socks. If you put one on your left foot here, the other one instantly knows and becomes a right-foot sock, even if it's all the way at Grandma's house!"
+  widgetClassNodeKeyRef:
+    key: ComponentRoot_node_192
+componentClassKeyRef:
+  key: ComponentRoot_node_192

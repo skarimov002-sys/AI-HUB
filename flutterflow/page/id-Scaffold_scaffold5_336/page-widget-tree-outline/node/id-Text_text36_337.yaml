@@ -1,0 +1,18 @@
+key: Text_text36_337
+type: Text
+props:
+  text:
+    themeStyle: HEADLINE_SMALL
+    translationIdentifier:
+      key: p3d9q88q
+    selectable: false
+    textValue:
+      inputValue: API Credentials
+    colorValue:
+      inputValue:
+        themeColor: PRIMARY_TEXT
+    heightValue:
+      inputValue: 1.3
+    fontWeightValue:
+      inputValue: w700
+name: Text

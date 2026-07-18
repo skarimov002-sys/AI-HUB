@@ -1,0 +1,17 @@
+key: ConditionalIconStack_icon1_290
+type: Stack
+props:
+  stack:
+    dimensions:
+      width:
+        pixelsValue:
+          inputValue: 24
+      height:
+        pixelsValue:
+          inputValue: 24
+    childAlignment:
+      xValue:
+        inputValue: 0
+      yValue:
+        inputValue: 0
+name: Icon

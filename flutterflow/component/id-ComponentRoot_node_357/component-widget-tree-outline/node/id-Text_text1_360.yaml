@@ -1,0 +1,31 @@
+key: Text_text1_360
+type: Text
+props:
+  text:
+    themeStyle: TITLE_MEDIUM
+    translationIdentifier:
+      key: fqwql9as
+    selectable: false
+    textValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          serializedValue: OpenAI
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: name
+              key: design_system_usr_api_card_api_cardparam_name
+        nodeKeyRef:
+          key: ComponentRoot_node_357
+        uiBuilderValue:
+          serializedValue: OpenAI
+      mostRecentInputValue: OpenAI
+    colorValue:
+      inputValue:
+        themeColor: PRIMARY_TEXT
+    heightValue:
+      inputValue: 1.4
+    fontWeightValue:
+      inputValue: w700
+name: Text

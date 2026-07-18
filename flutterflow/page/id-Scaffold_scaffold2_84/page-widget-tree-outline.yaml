@@ -1,0 +1,96 @@
+node:
+  key: Scaffold_scaffold2_84
+  body:
+    key: Column_column17_173
+    children:
+      - key: Container_container27_102
+        children:
+          - key: Column_container27_101
+            children:
+              - key: Container_container27_99
+                children:
+                  - key: Row_row21_98
+                    children:
+                      - key: Row_row22_91
+                        children:
+                          - key: IconButton_iconbutton4_85
+                          - key: Column_column18_89
+                            children:
+                              - key: Text_text26_86
+                              - key: Text_text27_87
+                      - key: Row_row23_96
+                        children:
+                          - key: IconButton_iconbutton5_92
+                          - key: Container_avatar1_94
+                            children:
+                              - key: Text_avatar1_93
+              - key: Container_container27_100
+      - key: Container_container28_119
+        children:
+          - key: Container_container28_118
+            children:
+              - key: Container_row24_117
+                children:
+                  - key: ScrollRow_row24_116
+                    children:
+                      - key: Container_row24_115
+                        children:
+                          - key: Row_row24_114
+                            children:
+                              - key: ComponentInstance_modelchip1_110
+                              - key: ComponentInstance_modelchip2_111
+                              - key: ComponentInstance_modelchip3_112
+                              - key: ComponentInstance_modelchip4_113
+      - key: Container_expanded5_146
+        children:
+          - key: ScrollColumn_column19_145
+            children:
+              - key: Container_column19_144
+                children:
+                  - key: Column_column19_143
+                    children:
+                      - key: ComponentInstance_chatbubble1_133
+                      - key: ComponentInstance_chatbubble2_134
+                      - key: ComponentInstance_chatbubble3_135
+                      - key: Container_container29_142
+                        children:
+                          - key: Container_container29_141
+                            children:
+                              - key: Column_column20_140
+                                children:
+                                  - key: Text_text28_136
+                                  - key: Text_text29_137
+                                  - key: ComponentInstance_stdbutton5_138
+      - key: Container_container30_171
+        children:
+          - key: Column_container30_170
+            children:
+              - key: Container_container30_169
+              - key: Container_container30_168
+                children:
+                  - key: Column_column21_167
+                    children:
+                      - key: Row_row25_152
+                        children:
+                          - key: IconButton_iconbutton6_147
+                          - key: ComponentInstance_stdtextfield4_148
+                          - key: Container_container31_150
+                            children:
+                              - key: Icon_icon15_149
+                      - key: Row_row26_165
+                        children:
+                          - key: Row_row27_162
+                            children:
+                              - key: Container_chip1_156
+                                children:
+                                  - key: ChipRow_chip1_155
+                                    children:
+                                      - key: ChipIcon_chip1_154
+                                      - key: Text_chip1_153
+                              - key: Container_chip2_160
+                                children:
+                                  - key: ChipRow_chip2_159
+                                    children:
+                                      - key: ChipIcon_chip2_158
+                                      - key: Text_chip2_157
+                          - key: Text_text30_163

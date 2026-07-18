@@ -1,0 +1,44 @@
+key: Container_container37_356
+type: Container
+props:
+  container:
+    boxDecoration:
+      borderRadius:
+        type: FF_BORDER_RADIUS_ALL
+        allValue:
+          inputValue: 18
+      border:
+        top:
+          sizeValue:
+            inputValue: 1
+          colorValue:
+            inputValue:
+              value: "872377088"
+        right:
+          sizeValue:
+            inputValue: 1
+          colorValue:
+            inputValue:
+              value: "872377088"
+        bottom:
+          sizeValue:
+            inputValue: 1
+          colorValue:
+            inputValue:
+              value: "872377088"
+        left:
+          sizeValue:
+            inputValue: 1
+          colorValue:
+            inputValue:
+              value: "872377088"
+      boxShape: FF_BOX_SHAPE_RECTANGLE
+      colorValue:
+        inputValue:
+          value: "352283392"
+      borderColorValue:
+        inputValue:
+          value: "872377088"
+      borderWidthValue:
+        inputValue: 1
+name: Container

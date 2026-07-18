@@ -1,0 +1,16 @@
+key: Icon_icon15_34
+type: Icon
+props:
+  icon:
+    sizeValue:
+      inputValue: 18
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    iconDataValue:
+      inputValue:
+        codePoint: 63624
+        family: MaterialIcons
+        matchTextDirection: false
+        name: lock_outline_rounded
+name: Icon

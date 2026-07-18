@@ -1,0 +1,84 @@
+node:
+  key: Scaffold_scaffold6_428
+  body:
+    key: Column_column39_530
+    children:
+      - key: Container_container40_436
+        children:
+          - key: Column_container40_435
+            children:
+              - key: Container_container40_433
+                children:
+                  - key: Row_row36_432
+                    children:
+                      - key: IconButton_iconbutton11_429
+                      - key: Text_text41_430
+              - key: Container_container40_434
+      - key: ScrollColumn_column40_528
+        children:
+          - key: Container_column40_527
+            children:
+              - key: Column_column40_526
+                children:
+                  - key: Column_column41_460
+                    children:
+                      - key: Text_text42_437
+                      - key: Container_container41_458
+                        children:
+                          - key: Container_container41_457
+                            children:
+                              - key: Column_column42_456
+                                children:
+                                  - key: Row_row37_449
+                                    children:
+                                      - key: Container_avatar2_439
+                                        children:
+                                          - key: Text_avatar2_438
+                                      - key: ComponentInstance_themepreviewbubble1_447
+                                  - key: Row_row38_454
+                                    children:
+                                      - key: ComponentInstance_themepreviewbubble2_450
+                                      - key: Container_avatar3_452
+                                        children:
+                                          - key: Text_avatar3_451
+                  - key: Column_column43_485
+                    children:
+                      - key: Row_row39_464
+                        children:
+                          - key: Text_text43_461
+                          - key: Text_text44_462
+                      - key: Container_container42_483
+                        children:
+                          - key: Container_container42_482
+                            children:
+                              - key: Column_column44_481
+                                children:
+                                  - key: ComponentInstance_stdslider1_477
+                                  - key: ComponentInstance_stdslider2_478
+                                  - key: ComponentInstance_stdslider3_479
+                  - key: Column_column45_500
+                    children:
+                      - key: Text_text45_486
+                      - key: Row_row40_498
+                        children:
+                          - key: ComponentInstance_densityoption1_494
+                          - key: ComponentInstance_densityoption2_495
+                          - key: ComponentInstance_densityoption3_496
+                  - key: Column_column46_521
+                    children:
+                      - key: Text_text46_501
+                      - key: Container_container43_519
+                        children:
+                          - key: Container_container43_518
+                            children:
+                              - key: Column_column47_517
+                                children:
+                                  - key: ComponentInstance_stdswitch1_511
+                                  - key: Divider_divider4_512
+                                  - key: ComponentInstance_stdswitch2_513
+                                  - key: Divider_divider5_514
+                                  - key: ComponentInstance_stdswitch3_515
+                  - key: Column_column48_525
+                    children:
+                      - key: ComponentInstance_stdbutton7_522
+                      - key: ComponentInstance_stdbutton8_523

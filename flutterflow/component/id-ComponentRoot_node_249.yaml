@@ -1,0 +1,14 @@
+name: BottomNav
+description: ""
+params:
+  design_system_std_bottom_nav_std_bottom_navparam_child:
+    identifier:
+      name: child
+      key: design_system_std_bottom_nav_std_bottom_navparam_child
+    defaultValue: {}
+    dataType:
+      scalarType: WidgetBuilder
+    namedParameter:
+      isOptional: true
+node:
+  key: ComponentRoot_node_249

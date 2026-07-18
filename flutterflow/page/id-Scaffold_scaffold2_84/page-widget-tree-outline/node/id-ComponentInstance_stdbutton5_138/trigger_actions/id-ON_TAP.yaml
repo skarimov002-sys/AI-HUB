@@ -1,0 +1,6 @@
+rootAction:
+  key: nav_ModelComparison_stdbutton5
+  action:
+    key: 3arz6vru
+trigger:
+  triggerType: ON_TAP

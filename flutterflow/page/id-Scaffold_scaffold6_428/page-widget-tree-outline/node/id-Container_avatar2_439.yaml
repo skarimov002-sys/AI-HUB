@@ -1,0 +1,22 @@
+key: Container_avatar2_439
+type: Container
+props:
+  container:
+    dimensions:
+      width:
+        pixelsValue:
+          inputValue: 32
+      height:
+        pixelsValue:
+          inputValue: 32
+    boxDecoration:
+      boxShape: FF_BOX_SHAPE_CIRCLE
+      colorValue:
+        inputValue:
+          themeColor: PRIMARY
+    childAlignment:
+      xValue:
+        inputValue: 0
+      yValue:
+        inputValue: 0
+name: Avatar

@@ -1,0 +1,18 @@
+key: Text_text27_3
+type: Text
+props:
+  text:
+    themeStyle: BODY_MEDIUM
+    translationIdentifier:
+      key: vbzp5swc
+    selectable: false
+    textValue:
+      inputValue: Your unified gateway to the world's most powerful intelligence.
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    heightValue:
+      inputValue: 1.5
+    textAlignValue:
+      inputValue: ALIGN_CENTER
+name: Text

@@ -1,0 +1,16 @@
+key: Icon_icon16_51
+type: Icon
+props:
+  icon:
+    sizeValue:
+      inputValue: 16
+    colorValue:
+      inputValue:
+        themeColor: INFO
+    iconDataValue:
+      inputValue:
+        codePoint: 63509
+        family: MaterialIcons
+        matchTextDirection: false
+        name: info_outline_rounded
+name: Icon

@@ -1,0 +1,17 @@
+key: WidgetBuilder_node_250
+type: Container
+props:
+  container: {}
+name: child
+parameterValues: {}
+widgetBuilderUiProperties:
+  placeholderDimensions:
+    width:
+      pixelsValue:
+        inputValue: 100
+    height:
+      pixelsValue:
+        inputValue: 100
+widgetBuilderIdentifier:
+  name: child
+  key: design_system_std_bottom_nav_std_bottom_navparam_child

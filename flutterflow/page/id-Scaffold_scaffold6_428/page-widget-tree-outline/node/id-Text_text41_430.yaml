@@ -1,0 +1,18 @@
+key: Text_text41_430
+type: Text
+props:
+  text:
+    themeStyle: TITLE_LARGE
+    translationIdentifier:
+      key: d2s6cjto
+    selectable: false
+    textValue:
+      inputValue: Theme & Personalization
+    colorValue:
+      inputValue:
+        themeColor: PRIMARY_TEXT
+    heightValue:
+      inputValue: 1.3
+    fontWeightValue:
+      inputValue: w700
+name: Text

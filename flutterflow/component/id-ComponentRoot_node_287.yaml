@@ -1,0 +1,56 @@
+name: HistoryItem
+description: ""
+params:
+  design_system_usr_history_item_history_itemparam_model_color:
+    identifier:
+      name: modelColor
+      key: design_system_usr_history_item_history_itemparam_model_color
+    defaultValue:
+      color:
+        value: "4294940672"
+    dataType:
+      scalarType: Color
+    namedParameter:
+      isOptional: true
+  design_system_usr_history_item_history_itemparam_snippet:
+    identifier:
+      name: snippet
+      key: design_system_usr_history_item_history_itemparam_snippet
+    defaultValue:
+      serializedValue: The syntax looks much cleaner now with the new indentation rules...
+    dataType:
+      scalarType: String
+    namedParameter:
+      isOptional: true
+  design_system_usr_history_item_history_itemparam_time:
+    identifier:
+      name: time
+      key: design_system_usr_history_item_history_itemparam_time
+    defaultValue:
+      serializedValue: 10:45 AM
+    dataType:
+      scalarType: String
+    namedParameter:
+      isOptional: true
+  design_system_usr_history_item_history_itemparam_title:
+    identifier:
+      name: title
+      key: design_system_usr_history_item_history_itemparam_title
+    defaultValue:
+      serializedValue: Refactoring Flutter DSL
+    dataType:
+      scalarType: String
+    namedParameter:
+      isOptional: true
+  design_system_usr_history_item_history_itemparam_model:
+    identifier:
+      name: model
+      key: design_system_usr_history_item_history_itemparam_model
+    defaultValue:
+      serializedValue: claude
+    dataType:
+      scalarType: String
+    namedParameter:
+      isOptional: true
+node:
+  key: ComponentRoot_node_287

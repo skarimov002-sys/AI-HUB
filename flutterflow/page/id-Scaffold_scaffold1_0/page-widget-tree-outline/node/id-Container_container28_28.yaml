@@ -1,0 +1,9 @@
+key: Container_container28_28
+type: Container
+props:
+  container: {}
+  expanded:
+    expandedType: EXPANDED
+    flexValue:
+      inputValue: 1
+name: Container

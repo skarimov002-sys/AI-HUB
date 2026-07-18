@@ -1,0 +1,6 @@
+key: ComponentRoot_node_9
+type: Container
+props:
+  container: {}
+name: ModelCard
+isDummyRoot: true

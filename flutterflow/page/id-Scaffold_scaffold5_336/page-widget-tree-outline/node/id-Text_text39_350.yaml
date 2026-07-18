@@ -1,0 +1,19 @@
+key: Text_text39_350
+type: Text
+props:
+  text:
+    themeStyle: BODY_SMALL
+    translationIdentifier:
+      key: q7gk6q57
+    selectable: false
+    textValue:
+      inputValue: Keys are stored locally on your device and never sent to our servers.
+    colorValue:
+      inputValue:
+        value: "4294967295"
+        paletteColorName: on_secondary
+        darkModeColor:
+          value: "4278190080"
+    heightValue:
+      inputValue: 1.4
+name: Text
