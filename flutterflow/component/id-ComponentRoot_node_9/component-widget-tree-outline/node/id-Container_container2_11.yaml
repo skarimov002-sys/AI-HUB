@@ -1,0 +1,73 @@
+key: Container_container2_11
+type: Container
+props:
+  container:
+    dimensions:
+      width:
+        pixelsValue:
+          inputValue: 40
+      height:
+        pixelsValue:
+          inputValue: 40
+    boxDecoration:
+      borderRadius:
+        type: FF_BORDER_RADIUS_ALL
+        allValue:
+          inputValue: 12
+      boxShape: FF_BOX_SHAPE_RECTANGLE
+      colorValue:
+        variable:
+          source: FUNCTION_CALL
+          defaultValue:
+            color:
+              value: "452946688"
+              paletteColorName: primary_10
+              darkModeColor:
+                value: "452953395"
+          functionCall:
+            conditionalValue:
+              ifConditionalValues:
+                - condition:
+                    source: WIDGET_CLASS_PARAMETER
+                    defaultValue:
+                      serializedValue: "true"
+                    baseVariable:
+                      widgetClass:
+                        paramIdentifier:
+                          name: selected
+                          key: design_system_usr_model_card_model_cardparam_selected
+                    nodeKeyRef:
+                      key: ComponentRoot_node_9
+                    uiBuilderValue:
+                      serializedValue: "true"
+                  value:
+                    inputValue:
+                      color:
+                        value: "452946688"
+                        paletteColorName: primary_10
+                        darkModeColor:
+                          value: "452953395"
+              elseValue:
+                inputValue:
+                  color:
+                    themeColor: SECONDARY_BACKGROUND
+              returnParameter:
+                dataType:
+                  scalarType: Color
+          uiBuilderValue:
+            color:
+              value: "452946688"
+              paletteColorName: primary_10
+              darkModeColor:
+                value: "452953395"
+        mostRecentInputValue:
+          value: "452946688"
+          paletteColorName: primary_10
+          darkModeColor:
+            value: "452953395"
+    childAlignment:
+      xValue:
+        inputValue: 0
+      yValue:
+        inputValue: 0
+name: Container

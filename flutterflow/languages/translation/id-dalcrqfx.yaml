@@ -1,0 +1,25 @@
+translationIdentifier:
+  key: dalcrqfx
+translations:
+  - language:
+      language: en
+    text: The syntax looks much cleaner now with the new indentation rules...
+  - language:
+      language: ru
+    text: ""
+  - language:
+      language: tr
+    text: ""
+  - language:
+      language: ar
+    text: ""
+  - language:
+      language: fr
+    text: ""
+  - language:
+      language: zh_Hant
+    text: ""
+  - language:
+      language: ja
+    text: ""
+isFixed: false

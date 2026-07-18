@@ -1,0 +1,6 @@
+key: ComponentRoot_node_120
+type: Container
+props:
+  container: {}
+name: ChatBubble
+isDummyRoot: true

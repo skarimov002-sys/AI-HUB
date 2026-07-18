@@ -1,0 +1,47 @@
+key: Text_description_text_473
+type: Text
+props:
+  text:
+    themeStyle: BODY_SMALL
+    selectable: false
+    textValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          serializedValue: ""
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: description
+              key: design_system_std_slider_std_sliderparam_description
+        nodeKeyRef:
+          key: ComponentRoot_node_465
+        uiBuilderValue:
+          serializedValue: ""
+      mostRecentInputValue: ""
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    heightValue:
+      inputValue: 1.4
+    maxLinesValue:
+      inputValue: 2
+    overflowReplacement: ELLIPSIS
+  visibility:
+    legacyVisible: false
+    visibleValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          serializedValue: "false"
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: descriptionPresent
+              key: design_system_std_slider_std_sliderparam_description_present
+        nodeKeyRef:
+          key: ComponentRoot_node_465
+        uiBuilderValue:
+          serializedValue: "false"
+      mostRecentInputValue: false
+name: Text

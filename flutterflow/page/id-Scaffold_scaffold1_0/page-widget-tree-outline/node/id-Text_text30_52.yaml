@@ -1,0 +1,16 @@
+key: Text_text30_52
+type: Text
+props:
+  text:
+    themeStyle: BODY_SMALL
+    translationIdentifier:
+      key: mlglxeis
+    selectable: false
+    textValue:
+      inputValue: Keys are stored locally on your device.
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    heightValue:
+      inputValue: 1.4
+name: Text

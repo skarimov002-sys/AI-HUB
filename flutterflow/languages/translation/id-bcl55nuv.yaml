@@ -1,0 +1,25 @@
+translationIdentifier:
+  key: bcl55nuv
+translations:
+  - language:
+      language: en
+    text: Code Interpreter
+  - language:
+      language: ru
+    text: ""
+  - language:
+      language: tr
+    text: ""
+  - language:
+      language: ar
+    text: ""
+  - language:
+      language: fr
+    text: ""
+  - language:
+      language: zh_Hant
+    text: ""
+  - language:
+      language: ja
+    text: ""
+isFixed: false

@@ -1,0 +1,25 @@
+key: ComponentInstance_stdbottomnav1_267
+type: Container
+props:
+  container: {}
+name: BottomNav
+parameterValues:
+  parameterPasses:
+    design_system_std_bottom_nav_std_bottom_navparam_child:
+      paramIdentifier:
+        name: child
+        key: design_system_std_bottom_nav_std_bottom_navparam_child
+      variable:
+        source: WIDGET_BUILDER
+        baseVariable:
+          widgetBuilder:
+            passedParameters:
+              widgetClassNodeKeyRef:
+                key: ComponentRoot_node_255
+            widgetBuilderSource:
+              widgetClassNodeKeyRef:
+                key: ComponentRoot_node_255
+  widgetClassNodeKeyRef:
+    key: ComponentRoot_node_249
+componentClassKeyRef:
+  key: ComponentRoot_node_249

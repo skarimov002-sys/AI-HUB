@@ -1,0 +1,18 @@
+key: Text_chip1_153
+type: Text
+props:
+  text:
+    themeStyle: LABEL_SMALL
+    translationIdentifier:
+      key: vzgjj2k4
+    selectable: false
+    textValue:
+      inputValue: Web Search
+    fontSizeValue:
+      inputValue: 12
+    colorValue:
+      inputValue:
+        themeColor: PRIMARY_TEXT
+    heightValue:
+      inputValue: 1.2
+name: Chip Label

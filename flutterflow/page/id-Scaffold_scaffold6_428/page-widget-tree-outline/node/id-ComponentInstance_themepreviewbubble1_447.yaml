@@ -1,0 +1,23 @@
+key: ComponentInstance_themepreviewbubble1_447
+type: Container
+props:
+  container: {}
+name: ThemePreviewBubble
+parameterValues:
+  parameterPasses:
+    design_system_usr_theme_preview_bubble_theme_preview_bubbleparam_tone:
+      paramIdentifier:
+        name: tone
+        key: design_system_usr_theme_preview_bubble_theme_preview_bubbleparam_tone
+      inputValue:
+        serializedValue: primary
+    design_system_usr_theme_preview_bubble_theme_preview_bubbleparam_is_ai:
+      paramIdentifier:
+        name: isAi
+        key: design_system_usr_theme_preview_bubble_theme_preview_bubbleparam_is_ai
+      inputValue:
+        serializedValue: "true"
+  widgetClassNodeKeyRef:
+    key: ComponentRoot_node_440
+componentClassKeyRef:
+  key: ComponentRoot_node_440

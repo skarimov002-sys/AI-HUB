@@ -1,0 +1,20 @@
+key: Lottie_lottie1_1
+type: LottieAnimation
+props:
+  lottieAnimation:
+    source: FF_SOURCE_TYPE_NETWORK
+    fit: FF_BOX_FIT_CONTAIN
+    dimensions:
+      width:
+        pixelsValue:
+          inputValue: 100
+      height:
+        pixelsValue:
+          inputValue: 160
+    animationType: FF_LOTTIE_ANIMATION_TYPE_LOOP
+    usingUpdatedDimensions: true
+    pathValue:
+      inputValue: https://dimg.dreamflow.cloud/v1/lottie/AI+neural+network+pulse+orange
+    initialAnimationStatusValue:
+      inputValue: true
+name: Lottie

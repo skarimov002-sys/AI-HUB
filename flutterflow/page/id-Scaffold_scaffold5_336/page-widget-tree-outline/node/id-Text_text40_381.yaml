@@ -1,0 +1,18 @@
+key: Text_text40_381
+type: Text
+props:
+  text:
+    themeStyle: TITLE_SMALL
+    translationIdentifier:
+      key: hsvc9puu
+    selectable: false
+    textValue:
+      inputValue: Advanced Options
+    colorValue:
+      inputValue:
+        themeColor: PRIMARY_TEXT
+    heightValue:
+      inputValue: 1.4
+    fontWeightValue:
+      inputValue: w700
+name: Text

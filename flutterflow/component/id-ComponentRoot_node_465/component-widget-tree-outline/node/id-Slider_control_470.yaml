@@ -1,0 +1,47 @@
+key: Slider_control_470
+type: Slider
+props:
+  slider:
+    showValue: false
+    numDecimalPlaces: 2
+    activeColorValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          color:
+            themeColor: PRIMARY
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: color
+              key: design_system_std_slider_std_sliderparam_color
+        nodeKeyRef:
+          key: ComponentRoot_node_465
+        uiBuilderValue:
+          color:
+            themeColor: PRIMARY
+      mostRecentInputValue:
+        themeColor: PRIMARY
+    inactiveColorValue:
+      inputValue:
+        themeColor: ALTERNATE
+    minValue:
+      inputValue: 0
+    maxValue:
+      inputValue: 100
+    initialValueValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          serializedValue: "85"
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: valuePercentage
+              key: design_system_std_slider_std_sliderparam_value_percentage
+        nodeKeyRef:
+          key: ComponentRoot_node_465
+        uiBuilderValue:
+          serializedValue: "85"
+      mostRecentInputValue: 85
+name: Slider

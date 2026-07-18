@@ -1,0 +1,25 @@
+node:
+  key: ComponentRoot_node_357
+  children:
+    - key: Container_container1_377
+      children:
+        - key: Container_container1_376
+          children:
+            - key: Column_column1_375
+              children:
+                - key: Row_row1_368
+                  children:
+                    - key: Row_row2_365
+                      children:
+                        - key: Container_container2_359
+                          children:
+                            - key: Icon_icon1_358
+                        - key: Column_column2_363
+                          children:
+                            - key: Text_text1_360
+                            - key: Text_text2_361
+                - key: ComponentInstance_stdtextfield1_369
+                - key: Row_row3_373
+                  children:
+                    - key: ComponentInstance_stdbutton1_370
+                    - key: ComponentInstance_stdbutton2_371

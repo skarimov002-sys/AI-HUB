@@ -1,0 +1,36 @@
+key: ComponentInstance_modelresponsecard2_218
+type: Container
+props:
+  container: {}
+name: ModelResponseCard
+parameterValues:
+  parameterPasses:
+    design_system_usr_model_response_card_model_response_cardparam_brand_color:
+      paramIdentifier:
+        name: brandColor
+        key: design_system_usr_model_response_card_model_response_cardparam_brand_color
+      inputValue:
+        color:
+          value: "4285835932"
+    design_system_usr_model_response_card_model_response_cardparam_icon_slug:
+      paramIdentifier:
+        name: iconSlug
+        key: design_system_usr_model_response_card_model_response_cardparam_icon_slug
+      inputValue:
+        serializedValue: https://cdn.simpleicons.org/openai.svg
+    design_system_usr_model_response_card_model_response_cardparam_model_name:
+      paramIdentifier:
+        name: modelName
+        key: design_system_usr_model_response_card_model_response_cardparam_model_name
+      inputValue:
+        serializedValue: GPT-4o
+    design_system_usr_model_response_card_model_response_cardparam_response_text:
+      paramIdentifier:
+        name: responseText
+        key: design_system_usr_model_response_card_model_response_cardparam_response_text
+      inputValue:
+        serializedValue: "Think of two magic coins that are connected. When you flip one and it lands on Heads, the other coin always lands on Tails at the exact same moment, no matter how far apart they are."
+  widgetClassNodeKeyRef:
+    key: ComponentRoot_node_192
+componentClassKeyRef:
+  key: ComponentRoot_node_192

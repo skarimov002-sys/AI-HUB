@@ -1,0 +1,58 @@
+name: ModelCard
+description: ""
+params:
+  design_system_usr_model_card_model_cardparam_icon:
+    identifier:
+      name: icon
+      key: design_system_usr_model_card_model_cardparam_icon
+    defaultValue:
+      icon:
+        sizeValue:
+          inputValue: 24
+        colorValue:
+          inputValue:
+            themeColor: PRIMARY
+        iconDataValue:
+          inputValue:
+            codePoint: 62870
+            family: MaterialIcons
+            matchTextDirection: false
+            name: auto_awesome_rounded
+    dataType:
+      scalarType: WidgetProperty
+      subType:
+        widgetPropertyType: ICON
+    namedParameter:
+      isOptional: true
+  design_system_usr_model_card_model_cardparam_name:
+    identifier:
+      name: name
+      key: design_system_usr_model_card_model_cardparam_name
+    defaultValue:
+      serializedValue: Claude 3.5
+    dataType:
+      scalarType: String
+    namedParameter:
+      isOptional: true
+  design_system_usr_model_card_model_cardparam_provider:
+    identifier:
+      name: provider
+      key: design_system_usr_model_card_model_cardparam_provider
+    defaultValue:
+      serializedValue: Anthropic
+    dataType:
+      scalarType: String
+    namedParameter:
+      isOptional: true
+  design_system_usr_model_card_model_cardparam_selected:
+    identifier:
+      name: selected
+      key: design_system_usr_model_card_model_cardparam_selected
+    defaultValue:
+      serializedValue: "true"
+    dataType:
+      scalarType: Boolean
+    namedParameter:
+      isOptional: true
+node:
+  key: ComponentRoot_node_9

@@ -1,0 +1,16 @@
+key: Text_text42_437
+type: Text
+props:
+  text:
+    themeStyle: LABEL_SMALL
+    translationIdentifier:
+      key: w008db1e
+    selectable: false
+    textValue:
+      inputValue: Live Preview
+    colorValue:
+      inputValue:
+        themeColor: SECONDARY_TEXT
+    heightValue:
+      inputValue: 1.2
+name: Text

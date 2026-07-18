@@ -1,0 +1,46 @@
+key: Text_text4_297
+type: Text
+props:
+  text:
+    themeStyle: LABEL_SMALL
+    translationIdentifier:
+      key: h4h8eu3r
+    selectable: false
+    textValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          serializedValue: claude
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: model
+              key: design_system_usr_history_item_history_itemparam_model
+        nodeKeyRef:
+          key: ComponentRoot_node_287
+        uiBuilderValue:
+          serializedValue: claude
+      mostRecentInputValue: claude
+    colorValue:
+      variable:
+        source: WIDGET_CLASS_PARAMETER
+        defaultValue:
+          color:
+            value: "4294940672"
+        baseVariable:
+          widgetClass:
+            paramIdentifier:
+              name: modelColor
+              key: design_system_usr_history_item_history_itemparam_model_color
+        nodeKeyRef:
+          key: ComponentRoot_node_287
+        uiBuilderValue:
+          color:
+            value: "4294940672"
+      mostRecentInputValue:
+        value: "4294940672"
+    heightValue:
+      inputValue: 1.2
+    fontWeightValue:
+      inputValue: w700
+name: Text

@@ -1,0 +1,28 @@
+key: Text_avatar2_438
+type: Text
+props:
+  text:
+    themeStyle: LABEL_MEDIUM
+    translationIdentifier:
+      key: vutx9rk7
+    selectable: false
+    textValue:
+      inputValue: NX
+    fontSizeValue:
+      inputValue: 12.16
+    colorValue:
+      inputValue:
+        value: "4294967295"
+        paletteColorName: on_primary
+        darkModeColor:
+          value: "4294967295"
+    heightValue:
+      inputValue: 1.3
+    maxLinesValue:
+      inputValue: 1
+    fontWeightValue:
+      inputValue: w600
+    textAlignValue:
+      inputValue: ALIGN_CENTER
+    overflowReplacement: CLIP
+name: Avatar Label

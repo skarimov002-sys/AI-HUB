@@ -1,0 +1,30 @@
+key: Container_container31_150
+type: Container
+props:
+  container:
+    dimensions:
+      width:
+        pixelsValue:
+          inputValue: 48
+      height:
+        pixelsValue:
+          inputValue: 48
+    boxDecoration:
+      borderRadius:
+        type: FF_BORDER_RADIUS_ALL
+        allValue:
+          inputValue: 9999
+      boxShape: FF_BOX_SHAPE_RECTANGLE
+      boxShadow:
+        themeShadowToken:
+          name: sm
+          key: sm
+      colorValue:
+        inputValue:
+          themeColor: PRIMARY
+    childAlignment:
+      xValue:
+        inputValue: 0
+      yValue:
+        inputValue: 0
+name: Container

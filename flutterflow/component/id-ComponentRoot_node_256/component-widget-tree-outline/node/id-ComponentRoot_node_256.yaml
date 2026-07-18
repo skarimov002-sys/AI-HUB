@@ -1,0 +1,6 @@
+key: ComponentRoot_node_256
+type: Container
+props:
+  container: {}
+name: NavItem
+isDummyRoot: true

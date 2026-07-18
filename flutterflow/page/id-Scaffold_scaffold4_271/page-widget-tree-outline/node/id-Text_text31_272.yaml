@@ -1,0 +1,18 @@
+key: Text_text31_272
+type: Text
+props:
+  text:
+    themeStyle: HEADLINE_MEDIUM
+    translationIdentifier:
+      key: wuc7qcde
+    selectable: false
+    textValue:
+      inputValue: Chat History
+    colorValue:
+      inputValue:
+        themeColor: PRIMARY_TEXT
+    heightValue:
+      inputValue: 1.25
+    fontWeightValue:
+      inputValue: w700
+name: Text

@@ -1,0 +1,6 @@
+key: ComponentRoot_node_465
+type: Container
+props:
+  container: {}
+name: Slider
+isDummyRoot: true

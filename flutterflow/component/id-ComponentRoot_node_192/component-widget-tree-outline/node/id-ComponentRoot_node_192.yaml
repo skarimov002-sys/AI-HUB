@@ -1,0 +1,6 @@
+key: ComponentRoot_node_192
+type: Container
+props:
+  container: {}
+name: ModelResponseCard
+isDummyRoot: true

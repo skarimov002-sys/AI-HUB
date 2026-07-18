@@ -1,0 +1,19 @@
+key: Icon_icon15_348
+type: Icon
+props:
+  icon:
+    sizeValue:
+      inputValue: 24
+    colorValue:
+      inputValue:
+        value: "4294967295"
+        paletteColorName: on_secondary
+        darkModeColor:
+          value: "4278190080"
+    iconDataValue:
+      inputValue:
+        codePoint: 63510
+        family: MaterialIcons
+        matchTextDirection: false
+        name: info_rounded
+name: Icon

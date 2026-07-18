@@ -1,0 +1,43 @@
+key: Container_root_476
+type: Container
+props:
+  container:
+    dimensions:
+      width:
+        percentOfContainingWidgetValue:
+          inputValue: 100
+  opacity:
+    opacityValue:
+      variable:
+        source: FUNCTION_CALL
+        defaultValue:
+          serializedValue: "1"
+        functionCall:
+          conditionalValue:
+            ifConditionalValues:
+              - condition:
+                  source: WIDGET_CLASS_PARAMETER
+                  defaultValue:
+                    serializedValue: "false"
+                  baseVariable:
+                    widgetClass:
+                      paramIdentifier:
+                        name: disabled
+                        key: design_system_std_slider_std_sliderparam_disabled
+                  nodeKeyRef:
+                    key: ComponentRoot_node_465
+                  uiBuilderValue:
+                    serializedValue: "false"
+                value:
+                  inputValue:
+                    serializedValue: "0.55"
+            elseValue:
+              inputValue:
+                serializedValue: "1"
+            returnParameter:
+              dataType:
+                scalarType: Double
+        uiBuilderValue:
+          serializedValue: "1"
+      mostRecentInputValue: 1
+name: Dimensions
