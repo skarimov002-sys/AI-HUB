@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 class LatLng {
   const LatLng(this.latitude, this.longitude);
   final double latitude;

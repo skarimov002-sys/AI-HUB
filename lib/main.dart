@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

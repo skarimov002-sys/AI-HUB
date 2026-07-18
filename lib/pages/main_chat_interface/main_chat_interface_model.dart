@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import '/components/button/button_widget.dart';
 import '/components/chat_bubble/chat_bubble_widget.dart';
 import '/components/model_chip/model_chip_widget.dart';

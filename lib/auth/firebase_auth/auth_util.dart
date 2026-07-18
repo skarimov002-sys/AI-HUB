@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart' show kIsWeb;

@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import '/components/button/button_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';

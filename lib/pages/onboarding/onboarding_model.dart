@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import '/components/button/button_widget.dart';
 import '/components/model_card/model_card_widget.dart';
 import '/components/text_field/text_field_widget.dart';

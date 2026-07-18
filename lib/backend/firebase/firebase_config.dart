@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 

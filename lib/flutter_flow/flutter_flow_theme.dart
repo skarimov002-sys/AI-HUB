@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 // ignore_for_file: overridden_fields, annotate_overrides
 
 import 'package:flutter/material.dart';

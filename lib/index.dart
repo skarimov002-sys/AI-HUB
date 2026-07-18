@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Sanjar Karimjonov. All rights reserved.
+
 // Export pages
 export '/pages/onboarding/onboarding_widget.dart' show OnboardingWidget;
 export '/pages/main_chat_interface/main_chat_interface_widget.dart'
